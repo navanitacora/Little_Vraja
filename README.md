@@ -20,7 +20,7 @@ A cosy pixel game about a little Vrindavan village: serve Radha-Syamasundara, ca
 3. Go to **Settings → Pages**. Under **Build and deployment**, choose **Deploy from a branch**, branch **main**, folder **/(root)**, and click **Save**.
 4. After a minute or two the page shows your address, something like `https://YOUR-NAME.github.io/little-vraja/`. Open it: that is the game.
 
-**Updating later:** upload the new `index.html` over the old one, and in `sw.js` change `little-vraja-v1` to `little-vraja-v2` (then v3, and so on) so phones fetch the new version.
+**Updating later:** upload the new files over the old ones. Each new version I give you already has a new number inside `sw.js` (this one is `little-vraja-v2`), so phones fetch the new game.
 
 ## 2. On a phone straight away (no store)
 

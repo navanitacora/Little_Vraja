@@ -69,12 +69,11 @@ button:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
 #opts button{background:var(--panel2);border:2px solid var(--ink);border-radius:5px;padding:1px 7px;font-size:13px;font-weight:700}
 #opts button:hover{background:#ffd1e0}
 #opts b{color:var(--lotus-d);margin-right:4px}
-#book,#help,#start,#slides,#fest{position:absolute;inset:0;display:grid;place-items:center;background:#2b214099}
-#book .panel,#help .panel,#start .panel,#slides .panel,#fest .panel{width:min(560px,92%);max-height:88%;overflow:auto;padding:16px 18px}
+#pause,#help,#start,#slides,#fest{position:absolute;inset:0;display:grid;place-items:center;background:#2b214099}
+#pause .panel,#help .panel,#start .panel,#slides .panel,#fest .panel{width:min(560px,92%);max-height:88%;overflow:auto;padding:16px 18px}
 h1,h2{margin:0 0 8px;font-family:var(--deco);font-weight:400;color:var(--maroon);text-wrap:balance}
 h1{font-size:32px}h2{font-size:22px}
 p{margin:6px 0;line-height:1.4;font-size:15px}
-.stickers{display:grid;grid-template-columns:repeat(auto-fill,minmax(118px,1fr));gap:8px;margin-top:10px}
 .stk{border:2px dashed #c9a58a;border-radius:6px;padding:6px;text-align:center;font-size:13px;color:var(--muted);min-height:66px;display:grid;gap:4px;place-items:center}
 .stk canvas{width:32px;height:32px;image-rendering:pixelated}
 .stk.got{border-style:solid;border-color:var(--lotus);background:#fff0f6;color:var(--ink)}
@@ -111,7 +110,7 @@ p{margin:6px 0;line-height:1.4;font-size:15px}
 <div id="rotate"><div class="panel">Turn your phone sideways to play ↻<br><small style="font-weight:600">Hare Krishna!</small></div></div>
 <div id="wrap"><div id="stage">
   <div id="top"><div id="clock" class="panel"><canvas id="sun" width="16" height="16"></canvas><div><b id="time">6:00 am</b><small id="day">Day 1 · Mangala</small></div></div>
-    <div id="topbtns"><button class="btn" id="bEnd" hidden>End japa walk</button><button class="btn" id="bMusic" aria-pressed="true">Music</button><button class="btn" id="bFest">Festivals</button><button class="btn" id="bBook">Achievement stickers</button><button class="btn" id="bHelp">Help</button></div></div>
+    <div id="topbtns"><button class="btn" id="bEnd" hidden>End japa walk</button><button class="btn" id="bMusic" aria-pressed="true">Music</button><button class="btn" id="bFest">Festivals</button><button class="btn" id="bPause">Pause</button><button class="btn" id="bHelp">Help</button></div></div>
   <div id="view"><i class="lotus tl"></i><i class="lotus tr"></i><i class="lotus bl"></i><i class="lotus br"></i><canvas id="game" width="384" height="216" aria-label="Little Vraja game"></canvas><canvas id="ovl" aria-hidden="true" style="position:absolute;left:17px;top:17px;pointer-events:none"></canvas><div id="bar"></div>
     <div id="pad"><span></span><button data-k="up" aria-label="Walk up">▲</button><span></span><button data-k="left" aria-label="Walk left">◀</button><span></span><button data-k="right" aria-label="Walk right">▶</button><span></span><button data-k="down" aria-label="Walk down">▼</button><span></span></div>
     <div id="acts"><button class="sm" id="tJump">Jump</button><button class="sm" id="tBow">Bow</button><button class="sm" id="tJapa">Japa</button><button id="tAct">Use</button></div></div>
@@ -120,10 +119,11 @@ p{margin:6px 0;line-height:1.4;font-size:15px}
     <div id="dlg" class="panel" hidden><canvas id="face" width="16" height="16"></canvas><div style="flex:1;min-width:0"><div class="nm" id="dname"></div><div class="tx" id="dtext"></div><div id="opts"></div><div class="nx" id="dnx">click or press E</div></div><button class="btn" id="dclose" aria-label="Close" style="align-self:flex-start;padding:0 8px;font-size:16px;line-height:24px">✕</button><div hidden></div></div></div></div>
 <div id="slides" hidden><div class="panel" style="text-align:center"><canvas id="slideC" width="192" height="108" style="width:100%;max-width:576px;image-rendering:pixelated;border:3px solid var(--ink);border-radius:4px"></canvas><p id="slideT" style="min-height:44px"></p><div style="display:flex;gap:8px;justify-content:center"><button class="btn" id="slPrev">◀ Back</button><button class="btn" id="slNext">Next ▶</button><button class="btn" id="slClose">Close (X)</button></div></div></div>
   <div id="fest" hidden><div class="panel"><h2>Festivals</h2><div id="festList" style="display:grid;gap:8px"></div><button class="btn go" id="festClose">Close</button></div></div>
-  <div id="book" hidden><div class="panel"><h2>Achievement stickers</h2><p id="bookSum"></p><div class="stickers" id="stk"></div><button class="btn go" id="bookClose">Close</button></div></div>
+  
+  <div id="pause" hidden><div class="panel" style="text-align:center"><h2>Paused</h2><p>Hare Krishna! Take your time.</p><button class="btn go" id="pResume">Continue playing</button><button class="btn go" id="pHelp" style="margin-top:10px">How to play</button><button class="btn go" id="pMenu" style="margin-top:10px">Back to the start screen</button></div></div>
   <div id="help" hidden><div class="panel"><h2>How to play</h2>
     <p>Walk around Little Vraja, serve Radha-Syamasundara, grow flowers, care for the cows and make friends.</p>
-    <div class="keys"><b>WASD / arrows</b><span>walk (or click where you want to go)</span><b>E</b><span>use, talk, pick, offer (or click on things)</span><b>Space</b><span>jump (great during kirtan!)</span><b>Hands</b><span>carry one tool, or up to 5 flowers or fruits. Offer them, give them to someone, or put them in a basket</span><b>J</b><span>chant one Hare Krishna mantra on your beads</span><b>Q</b><span>offer obeisances (bow down)</span><b>B</b><span>open your achievement stickers</span><b>M</b><span>music on or off</span><b>X</b><span>close a conversation, stop kirtan or catch, or end a japa walk</span></div>
+    <div class="keys"><b>WASD / arrows</b><span>walk (or click where you want to go)</span><b>E</b><span>use, talk, pick, offer (or click on things)</span><b>Space</b><span>jump (great during kirtan!)</span><b>Hands</b><span>carry one tool, or up to 5 flowers or fruits. Offer them, give them to someone, or put them in a basket</span><b>J</b><span>chant one Hare Krishna mantra on your beads</span><b>Q</b><span>offer obeisances (bow down)</span><b>P</b><span>pause the game</span><b>M</b><span>music on or off</span><b>X</b><span>close a conversation, stop kirtan or catch, or end a japa walk</span></div>
     <p><b>Using things:</b> everything works with the keyboard or the mouse. Walk up to something, face it and press E, or simply click it and your character walks there. With the watering can or seeds in hand, face the soil (or click it) and press E to water or plant. Devotees, animals, trees, flowers, statues, lamps and furniture can all be used.</p>
     <p><b>Garden:</b> the temple flower garden is on the left of the temple, looked after by Subala. The garden shed keeps the watering can, seed bags and baskets for flowers and fruit. Take seeds to the brown soil, water them, and pick them when they bloom. Bring 5 flowers to Vrinda for a garland.</p>
     <p><b>Shoes:</b> take your shoes off at the shoe rack beside the temple door before going in, and put them back on when you leave.</p>
@@ -302,7 +302,7 @@ const SHEETS={};for(const k in LOOK)SHEETS[k]=sheet(LOOK[k]);
 const OUTFITS={girl:[['Pink sari','#f7a8c4','#f7a8c4','#f4c95d'],['Sky-blue sari','#a8d4f4','#a8d4f4','#f4c95d'],['Mint sari','#b9e8c6','#9fd8b0','#fff1b8'],['Marigold sari','#ffd27a','#ffb84a','#e05a7a'],['Lavender sari','#d6c2ff','#c2aaf4','#f4c95d']],
   boy:[['Yellow dhoti','#fff3d6','#f6c45e'],['Saffron dhoti','#ffd8a8','#f7a457'],['White dhoti','#fffaf0','#f4f0e6'],['Sky-blue dhoti','#e6f2ff','#a8d4f4'],['Peach dhoti','#fff0e4','#ffc8a8']]};
 // the player's own sprite: base look + chosen clothes (or night clothes)
-function wakeInAshram(){const b=maps.ashram.objs.find(o=>o.own);S.night=true;dressMe();if(b)switchMap('ashram',b.x,b.y+14,0);}
+let wokeOnce=0;function wakeInAshram(){const b=maps.ashram.objs.find(o=>o.own);S.night=true;dressMe();if(b)switchMap('ashram',b.x,b.y+14,0);}
 function dressMe(){const base=LOOK[S.look||'girl'],g=base.girl?'girl':'boy',o=Object.assign({},base);
   if(S.night){o.top=o.bottom=g==='girl'?'#e8e0ff':'#e0ecff';o.trim='#ffffff';}else{const c=OUTFITS[g][S.outfit||0];o.top=c[1];o.bottom=c[2];if(c[3])o.trim=c[3];}
   LOOK.me=o;SHEETS.me=sheet(o);if(base.girl)KNEEL.me=kneelImgs(o);else delete KNEEL.me;player.look='me';}
@@ -849,7 +849,7 @@ function buildOutside(){const W=52,m=newMap(W,40,0);m.name='out';
   // wildflowers everywhere
   for(let y=1;y<35;y++)for(let x=1;x<51;x++)if(tileAt(m,x,y)===0&&hash(x,y,77)<.09)setT(m,x,y,16);
   const sta=(img,cx,by,w,lbl,txt,flip)=>imgObj(m,flip?flipC(img):img,cx,by,{ox:-img.width/2,oy:-img.height,solid:[cx-w/2,by-Math.min(16,img.height*.5),w,Math.min(16,img.height*.5)]});
-  [[16.5,DEVI,'Yogamaya Devi','devi'],[27.5,SHIVA,'Lord Shiva','shiva']].forEach(([sx,img,nm,k])=>imgObj(m,img,sx*T,14.9*T,{ox:-19,oy:-46,solid:[sx*T-16,14.9*T-24,32,24],label:nm,r:26,after:shrineDecor,act:function(){const o=this;openDlg(nm,{img,sx:8,sy:8,sw:22,sh:22},'',null,(k==='shiva'?[{l:'Offer milk',f:()=>{o.milk=4;sfx.splash();sticker(k);}}]:[]).concat([{l:'Offer a flower',f:()=>{o.fl=Math.min(6,(o.fl||0)+1);petals(sx*T,13.9*T,5);sfx.chime();sticker(k);}},{l:'Offer obeisances',f:()=>{player.dir=3;bow();sticker(k);}}]));}}));
+  [[16.5,DEVI,'Yogamaya Devi','devi'],[27.5,SHIVA,'Lord Shiva','shiva']].forEach(([sx,img,nm,k])=>imgObj(m,img,sx*T,14.9*T,{ox:-19,oy:-46,solid:[sx*T-16,14.9*T-24,32,24],label:nm,r:26,after:shrineDecor,act:function(){const o=this;openDlg(nm,{img,sx:8,sy:8,sw:22,sh:22},'',null,(k==='shiva'?[{l:'Offer milk',f:()=>{o.milk=4;sfx.splash();markDone(k);}}]:[]).concat([{l:'Offer a flower',f:()=>{o.fl=Math.min(6,(o.fl||0)+1);petals(sx*T,13.9*T,5);sfx.chime();markDone(k);}},{l:'Offer obeisances',f:()=>{player.dir=3;bow();markDone(k);}}]));}}));
   sta(ELE,17*T,34*T+8,26,'','',1);sta(ELE,27*T,34*T+8,26,'','');
   [[19.4,27.6],[24.6,27.6]].forEach(([a,b])=>{const o=sta(DEEP,a*T,b*T,12,'','');o.light=[0,-40,44];});
   [[19,32.7],[17.4,18.9]].forEach(([a,b])=>{sta(URN,a*T,b*T,18,'','');sta(URN,(44-a)*T,b*T,18,'','');});[45.9,50.1].forEach(a=>sta(URN,a*T,24.4*T,18,'',''));
@@ -868,14 +868,14 @@ function buildTemple(){const m=newMap(26,17,5);m.name='temple';
   m.altar=imgObj(m,ALTAR,13*T,9*T+8,{ox:-120,oy:-150,solid:[13*T-122,0,244,9*T+10],label:'Sri Sri Radha-Syamasundara',act:()=>actAltar(),r:40,isAltar:1});
   addObj(m,{img:MEDAL,x:13*T,y:13*T,ox:-56,oy:-56,flat:1});
   m.fan=addObj(m,{img:FAN,x:13*T,y:9*T+9,ox:-60,oy:-140,fan:1});
-  m.tassel=imgObj(m,TASSEL,5*T,10*T+8,{ox:-4,oy:-20,solid:[5*T-3,10*T+2,6,6],label:'Pull the fan string',act:()=>{fanT=3.2;tone(220,.15,'sine',.02,0,180);sticker('punkha');},r:22});
+  m.tassel=imgObj(m,TASSEL,5*T,10*T+8,{ox:-4,oy:-20,solid:[5*T-3,10*T+2,6,6],label:'Pull the fan string',act:()=>{fanT=3.2;tone(220,.15,'sine',.02,0,180);markDone('punkha');},r:22});
   m.atray=addObj(m,{img:null,x:13*T-70,y:10*T+2,ox:-15,oy:-22});
   m.stand=imgObj(m,STAND[1],21*T,10*T+6,{ox:-8,oy:-36,solid:[21*T-6,10*T,12,6],label:'Ghee lamp',act:()=>actLamp(),r:22});
-  imgObj(m,PRABHU_B,7*T+8,14*T+14,{ox:-15,oy:-40,solid:[6*T,13*T+4,36,12],label:'Srila Prabhupada',act:()=>vyasa&&S.inv.flowers>0?(S.inv.flowers--,updBar(),petals(7.5*T,13*T,8),sfx.chime(),sticker('vyasa')):0,r:30});
+  imgObj(m,PRABHU_B,7*T+8,14*T+14,{ox:-15,oy:-40,solid:[6*T,13*T+4,36,12],label:'Srila Prabhupada',act:()=>vyasa&&S.inv.flowers>0?(S.inv.flowers--,updBar(),petals(7.5*T,13*T,8),sfx.chime(),markDone('vyasa')):0,r:30});
   m.pillars=[[2,6],[23,6],[2,10],[23,10],[2,14],[23,14]].map(([a,b])=>{const o=imgObj(m,PILLAR,a*T+8,b*T+14,{ox:-14,oy:-64,solid:[a*T-2,b*T+4,20,10],label:'Dust the pillar',pillar:1,dusty:1,r:24});o.need=()=>player.held==='duster'&&o.dusty;o.act=()=>{o.dusty=0;sfx.splash();for(let i=0;i<8;i++)parts.push({x:o.x+(Math.random()-.5)*16,y:o.y-20-Math.random()*36,vx:(Math.random()-.5)*20,vy:-6,t:0,life:.7,k:'smoke'});checkClean();};return o;});
   imgObj(m,CLOSET,4*T+8,15*T+12,{ox:-15,oy:-36,solid:[4*T-6,15*T+4,28,8],label:'Cleaning closet',act:()=>actCloset(),r:24});
   setT(m,25,12,19);setT(m,25,13,19);  imgObj(m,BOOKTABLE,21.6*T,15.4*T,{ox:-17,oy:-22,solid:[21.6*T-17,15.4*T-8,34,8],label:'Srila Prabhupada\'s books',act:()=>actBooks(),r:24});
-  m.bell=imgObj(m,BELLSTAND,10*T+12,15*T+14,{ox:-12,oy:-44,solid:[10*T,15*T+8,24,6],label:'Ring the temple bell',act:()=>{sfx.bell();sparkle(10*T+12,15*T-20,6);if(!S.stk.bell)sticker('bell');},r:24});
+  m.bell=imgObj(m,BELLSTAND,10*T+12,15*T+14,{ox:-12,oy:-44,solid:[10*T,15*T+8,24,6],label:'Ring the temple bell',act:()=>{sfx.bell();sparkle(10*T+12,15*T-20,6);if(!S.stk.bell)markDone('bell');},r:24});
   m.spawn={x:13*T,y:15*T};
   return m;}
 function buildHome(){const m=newMap(12,9,18);m.name='home';rect(m,0,0,11,1,8);for(let y=0;y<9;y++){setT(m,0,y,8);setT(m,11,y,8);}rect(m,0,8,11,8,8);setT(m,5,8,13);setT(m,6,8,13);
@@ -933,7 +933,7 @@ function buildCave(){const m=newMap(12,9,21);m.name='cave';for(let x=0;x<12;x++)
 [[3.9,4],[8.1,4]].forEach(([a,b])=>imgObj(m,LAMPSTAND,a*T,b*T,{ox:-6,oy:-22,solid:[a*T-5,b*T-4,10,4]}));
   [[5,4.5],[7,4.5]].forEach(([a,b],i)=>addObj(m,{img:FLOWERHEAP[i%2],x:a*T,y:b*T,ox:-8,oy:-6,flat:1}));
   m.spawn={x:6*T,y:7.4*T};return m;}
-function actShila(){const o=[{l:'Offer obeisances',f:()=>{player.dir=3;bow();}}];if(S.inv.flowers>0)o.push({l:'Offer a flower',f:()=>{S.inv.flowers--;updBar();petals(6*T,3*T,6);sfx.chime();sticker('giri');}});o.push({l:'Hear the story',f:()=>openSlides()});
+function actShila(){const o=[{l:'Offer obeisances',f:()=>{player.dir=3;bow();}}];if(S.inv.flowers>0)o.push({l:'Offer a flower',f:()=>{S.inv.flowers--;updBar();petals(6*T,3*T,6);sfx.chime();markDone('giri');}});o.push({l:'Hear the story',f:()=>openSlides()});
   openDlg('Giriraja',{img:SHILA,sx:8,sy:2,sw:32,sh:32},'',null,o);}
 function buildAshram(){const m=newMap(21,12,18);m.name='ashram';rect(m,0,0,20,1,8);for(let y=0;y<12;y++){setT(m,0,y,8);setT(m,20,y,8);}rect(m,0,11,20,11,8);setT(m,10,11,13);
   for(let y=2;y<=6;y++)[5,10,15].forEach(x=>setT(m,x,y,8));for(let x=1;x<20;x++)if(![3,8,13,18].includes(x))setT(m,x,6,8);
@@ -1055,8 +1055,8 @@ function drawCritter(c){const im=(c.fl?c.imgsR:c.imgs)[c.f|0]||c.imgs[0],sc=c.ck
 const FOODNAME={grass:'fresh grass',fruit:'fruit',grains:'grains'};
 function actAnimal(name,face,food,petFn,feedFn,extra){const has=food==='grains'||S.inv[food]>0;const o=[{l:'Pet',f:petFn},{l:has?'Feed '+FOODNAME[food]:'Feed (need '+FOODNAME[food]+')',f:()=>{if(!has){return;}if(food!=='grains'){S.inv[food]--;updBar();}feedFn();}}];if(extra)o.push(extra);
   openDlg(name,face,pick(['Hello, little friend!','What a sweet '+name.toLowerCase()+'!','Hare Krishna, '+name.toLowerCase()+'!']),null,o);}
-function markPet(k){S.pet=S.pet||{};S.pet[k]=1;if(Object.keys(S.pet).length>=7)sticker('petall');}
-function markFed(k){S.fed=S.fed||{};S.fed[k]=1;if(Object.keys(S.fed).length>=7)sticker('feedall');}
+function markPet(k){S.pet=S.pet||{};S.pet[k]=1;if(Object.keys(S.pet).length>=7)markDone('petall');}
+function markFed(k){S.fed=S.fed||{};S.fed[k]=1;if(Object.keys(S.fed).length>=7)markDone('feedall');}
 function actCritter(c){const nm=c.name[0].toUpperCase()+c.name.slice(1);actAnimal(nm,{img:c.imgs[0],sx:0,sy:0,sw:c.imgs[0].width,sh:c.imgs[0].height},c.food,
   ()=>{c.happy=2;c.goal=null;c.snd();hearts(c.x,c.y-16,3);markPet(c.name);},
   ()=>{c.happy=2.5;c.goal=null;c.snd();hearts(c.x,c.y-16,5);markFed(c.name);});}
@@ -1091,10 +1091,7 @@ function take(k,n,quiet){const cur=stackK(),msg=t=>{if(!quiet)need(t);};
 function takeTool(t){if(handsFull()){need('Your hands are full. Put down what you are holding first.');return false;}S.tool=t;sfx.pick();updBar();return true;}
 function dropTool(){S.tool=null;sfx.pick();updBar();}
 function giveStack(n){const k=stackK();if(!k)return;S.inv[k]=0;updBar();hearts(n.x,n.y-26,3);sfx.heart();openDlg(n.name,npcFace(n.key),pick(['Thank you! I will offer them to Krishna.','How kind of you! Haribol!','For me? Thank you! Radhe Radhe!']),n.voice);}
-const STICKERS=[['darshan','First darshan','hand'],['bow','Offered obeisances','hand'],['arati','Arati with a ghee lamp','lamp'],['incense','Offered incense','incense'],['bhoga','Offered fruits','fruit'],['prasadam','Honoured prasadam','prasadam'],['flowers','Offered flowers','flowers'],
-  ['garland','Offered a garland','garland'],['harvest','First flower harvest','marigold'],['water','Watered a seedling','can'],['cow','Fed a mother cow','grass'],['tulasi','Tulasi parikrama','flowers'],['diya','Floated a lamp on the Yamuna','lamp'],
-  ['fish','Fed the fish','hand'],['peacock','Saw a peacock dance','flowers'],['swing','Jhulan swing','hand'],['japa','Chanted a full round','japa'],['newday','Woke up for a new day','hand'],['parrot','Heard the parrots chant','hand'],['kirtan','Sang kirtan with a friend','japa'],['japawalk','Went on a japa walk','japa'],['catch','Played catch with Keshava','hand'],['govardhan','Govardhana parikrama','grass'],['jhulan','Decorated the jhulan','garland'],['pick','Picked fruit from a tree','fruit'],['templearati','Sang kirtan at the temple arati','lamp'],['sweep','Swept the temple and courtyard','broom'],['tulasi2','Offered Tulasi leaves','tulasi'],['cook','Cooked sweet rice','milk'],['offercook','Offered your cooking','sweetrice'],['chamara','Fanned with the chamara','chamara'],['conch','Blew the conch','conch'],['share','Shared prasadam with a friend','prasadam'],['dipa','Lit all the evening lamps','lamp'],['bell','Rang the temple bell','hand'],['parrotfeed','Fed the parrots','fruit'],['petall','Petted 7 kinds of animals','hand'],['feedall','Fed 7 kinds of animals','grass'],['warmth','Felt the arati lamp\'s warmth','lamp'],['tulasiwater','Watered Tulasi Devi','can'],['fresh','Bathed and wore fresh clothes','hand'],['cookbhoga','Cooked bhoga for the Deities','bhoga'],['bhoga2','Offered your bhoga','bhoga'],['feast','Helped cook the feast','sweetrice'],['pujari','Offered the arati yourself','lamp'],['homealtar','Served your home altar','flowers'],['hug','Got a big hug at home','hand'],['homeprasadam','Had a snack at the elder\'s home','prasadam'],['helpelder','Helped at home','flowers'],['punkha','Fanned Radha-Syamasundara','pfan'],['serve','Served prasadam to everyone','serve'],['served','Was served prasadam','prasadam'],['polish','Polished the arati lamps','lamp'],['fest','Celebrated a festival','flowers'],['fest5','Celebrated 5 festivals','garland'],['ratha','Ratha Yatra','flowers'],['pullrope','Pulled the Ratha rope','hand'],['boat','Boat festival','lamp'],['story','Heard the Govardhana story','grass'],['giri','Worshipped Giriraja','flowers'],['class','Listened to a festival class','japa'],['abhisheka','Saw a festival abhisheka','milk'],['vyasa','Offered a flower to Srila Prabhupada','flowers'],['shiva','Bowed to Lord Shiva','hand'],['devi','Bowed to Yogamaya Devi','hand']];
-function sticker(k){if(S.stk[k])return;S.stk[k]=1;save();const s=STICKERS.find(a=>a[0]===k);if(s){setTimeout(()=>{toast('★ '+s[1],1800);sfx.chime();},2000);}}
+function markDone(k){S.stk[k]=1;}
 
 /* ================= UI ================= */
 let toastT=0,toastText='',promptLbl='',lastMsg='';function toast(t,ms=3200){toastText=t;toastT=ms/1000;}
@@ -1121,7 +1118,7 @@ function talk(n){if(!n)return;faceTo(n);n.dir=dirTo(n,player);n.hop=1;if(n.elder
   if(player.held==='prasadam'&&n.key!=='anna')o.push({l:'Share prasadam',f:()=>shareWith(n)});
   if(n.diner&&player.held==='serve'&&!n.served)o.unshift({l:'Serve prasadam',f:()=>serveDiner(n)});
   if(n.server){o.unshift({l:'Help serve',f:()=>{player.held='serve';sfx.pick();}});o.unshift({l:'Sit and be served',f:()=>beServed(n)});}
-  if(n.garland){o.unshift({l:'Help polish the lamps',f:()=>{sparkle(player.x,player.y-20,10,'#ffcf5a');sfx.chime();sticker('polish');}});if(S.inv.flowers>=5)o.unshift({l:'String a garland together',f:()=>{S.inv.flowers=0;S.inv.garland=1;updBar();sfx.chime();hearts(n.x,n.y-26,3);}});}
+  if(n.garland){o.unshift({l:'Help polish the lamps',f:()=>{sparkle(player.x,player.y-20,10,'#ffcf5a');sfx.chime();markDone('polish');}});if(S.inv.flowers>=5)o.unshift({l:'String a garland together',f:()=>{S.inv.flowers=0;S.inv.garland=1;updBar();sfx.chime();hearts(n.x,n.y-26,3);}});}
   if(n.key==='pujari')o.push({l:'May I offer the arati?',f:()=>requestArati(n)});
   if(n.key==='shyam')o.push({l:'Ask for milk',f:()=>getMilk(n)});
   if(n.key==='lalita')o.push({l:'Feed the fish together',f:()=>{feedFish(8.5*T,17.5*T);bubble(n,'Here, fishies!',2);}});
@@ -1135,14 +1132,14 @@ function talk(n){if(!n)return;faceTo(n);n.dir=dirTo(n,player);n.hop=1;if(n.elder
 function elderHug(n){hearts(n.x,n.y-26,4);hearts(player.x,player.y-26,4);n.hop=1;bubble(n,'♥',1.6);bubble(player,'♥',1.6);}
 function nextTip(){const t=[[!S.stk.darshan,'Go and greet Radha-Syamasundara in the temple, dear. They are waiting for you!'],[!S.stk.tulasiwater,'Tulasi Devi in front of the temple would love some water.'],[!S.stk.cow,'The cows by the goshala love fresh grass. Cut some tall grass for them.'],[!S.stk.harvest,'Plant flower seeds in our little garden and water them every day.'],[!S.stk.garland,'Bring 8 flowers to Vrinda and she will help you make a garland for Krishna.'],[!S.stk.fresh,'If you want to help the pujari, bathe and change in the ashram first.'],[!S.stk.japa,'Chant one full round on your beads. 108 times the holy name, little by little!'],[!S.stk.sweep,'The temple floor gets dusty every morning. The cleaning closet is by the door.'],[true,'Be kind to everyone, chant Hare Krishna and be happy. That is all, my dear.']];return t.find(a=>a[0])[1];}
 let OWNER='Mataji';
-function homeOwner(full,short){OWNER=short;const nm={hug:'Got a big hug from '+full,homeprasadam:'Had a snack at '+full+'\'s home',helpelder:'Helped '+full,homealtar:'Served '+full+'\'s altar'};STICKERS.forEach(t=>{if(nm[t[0]])t[1]=nm[t[0]];});const h=maps.home;h.objs.forEach(o=>{if(o.label==='Your bed'){o.label=short+'\'s bed';o.act=()=>{const el=h.ents.find(e=>e.elder);if(el){el.hop=1;bubble(el,'My bed! ♥',1.4);}};}
+function homeOwner(full,short){OWNER=short;const h=maps.home;h.objs.forEach(o=>{if(o.label==='Your bed'){o.label=short+'\'s bed';o.act=()=>{const el=h.ents.find(e=>e.elder);if(el){el.hop=1;bubble(el,'My bed! ♥',1.4);}};}
   if(o.label==='Our home altar')o.label=full+'\'s altar';if(o.label==='Storybooks')o.label=short+'\'s storybooks';if(o.label==='Sit on your japa mat')o.label=short+'\'s japa mat';});maps.out.house.label=full+'\'s house';}
 function offerTogether(n){const h=maps.home.halt,hx0=n.x,hy0=n.y;n.x=h.x-14;n.y=h.y+18;n.dir=3;player.x=h.x+14;player.y=h.y+18;player.dir=3;player.target=null;
   setTimeout(()=>{petals(h.x,h.y-10,10);sfx.chime();},500);setTimeout(()=>{n.bow=2.4;player.bow=2.4;},1400);setTimeout(()=>{elderHug(n);},4000);setTimeout(()=>{n.x=hx0;n.y=hy0;},5200);}
-function talkElder(n){const me=n.name;const face=npcFace(n.key);const o=[{l:'Hug',f:()=>{elderHug(n);sticker('hug');}},{l:'Have a snack',f:()=>{hearts(player.x,player.y-26,3);openDlg(me,face,pick(['Here, a warm laddu I offered to our little altar. Eat slowly!','Sweet rice, just for you. Krishna\'s prasadam makes you strong!','Some fruit prasadam. You must be hungry after all your service!']),n.voice);sticker('homeprasadam');}},
-  {l:'Ask for advice',f:()=>openDlg(me,face,nextTip(),n.voice)},{l:'Help with something',f:()=>{if(S.inv.flowers>=3){S.inv.flowers-=3;updBar();offerTogether(n);sticker('helpelder');}else openDlg(me,face,'Could you bring me 3 flowers for my little altar? You can pick them from the garden beds.',n.voice);}}];
+function talkElder(n){const me=n.name;const face=npcFace(n.key);const o=[{l:'Hug',f:()=>{elderHug(n);markDone('hug');}},{l:'Have a snack',f:()=>{hearts(player.x,player.y-26,3);openDlg(me,face,pick(['Here, a warm laddu I offered to our little altar. Eat slowly!','Sweet rice, just for you. Krishna\'s prasadam makes you strong!','Some fruit prasadam. You must be hungry after all your service!']),n.voice);markDone('homeprasadam');}},
+  {l:'Ask for advice',f:()=>openDlg(me,face,nextTip(),n.voice)},{l:'Help with something',f:()=>{if(S.inv.flowers>=3){S.inv.flowers-=3;updBar();offerTogether(n);markDone('helpelder');}else openDlg(me,face,'Could you bring me 3 flowers for my little altar? You can pick them from the garden beds.',n.voice);}}];
   openDlg(me,face,pick(['My dear little one! Come here.','Hare Krishna, sweetheart! How was your day?','There you are! I made something for you.']),n.voice,o);}
-function serveDiner(n){n.served=1;hearts(n.x,n.y-26,4);bubble(n,'Haribol!',1.6);sfx.pop();const ds=npcs.filter(q=>q.diner);if(ds.every(q=>q.served)){player.held=null;sticker('serve');setTimeout(()=>ds.forEach(q=>q.served=0),60000);}}
+function serveDiner(n){n.served=1;hearts(n.x,n.y-26,4);bubble(n,'Haribol!',1.6);sfx.pop();const ds=npcs.filter(q=>q.diner);if(ds.every(q=>q.served)){player.held=null;markDone('serve');setTimeout(()=>ds.forEach(q=>q.served=0),60000);}}
 let servedT=0,servedBy=null;
 function beServed(n){const seat={x:12.6*T,y:7*T+8};player.x=seat.x;player.y=seat.y;player.sit={o:{x:seat.x,y:seat.y},off:-4};player.dir=0;servedT=6;servedBy=n;n.goal={x:seat.x+16,y:seat.y};}
 function chat(n){const L=LINES[n.key]||['Hare Krishna! Have a lovely day of service.'];openDlg(n.name,npcFace(n.key),L[n.talkI%L.length],n.voice);n.talkI++;}
@@ -1155,11 +1152,6 @@ function closeDlg(){ROOMS.forEach(r=>{if(r&&r.peek){r.peek=0;r.img=DOORC;}});dlg
 function advanceDlg(){if(!dlg)return;if(dlg.shown<dlg.text.length){dlg.shown=dlg.text.length;$('dtext').textContent=dlg.text;return;}if(dlg.opts)return;closeDlg();}
 $('dlg').onclick=e=>{e.stopPropagation();advanceDlg();};$('dclose').onclick=e=>{e.stopPropagation();closeDlg();};
 
-/* book */
-function openBook(){const g=$('stk');g.innerHTML='';let n=0;STICKERS.forEach(([k,name,ic])=>{const d=document.createElement('div');d.className='stk'+(S.stk[k]?' got':'');if(S.stk[k])n++;
-  const c=document.createElement('canvas');c.width=16;c.height=16;c.getContext('2d').drawImage(ICONS[ic],0,0);d.appendChild(c);const s=document.createElement('span');s.textContent=S.stk[k]?name:'? ? ?';d.appendChild(s);g.appendChild(d);});
-  $('bookSum').textContent=`${n} of ${STICKERS.length} stickers · ${Object.keys(S.fests||{}).length} festivals · ${S.rounds} rounds and ${S.japa} mantras chanted · ${S.parik} Tulasi parikramas · Day ${S.day}`;$('book').hidden=false;}
-$('bBook').onclick=()=>openBook();
 /* ---- Govardhana story slides (original pictures, my own retelling) ---- */
 const SC=$('slideC').getContext('2d');SC.imageSmoothingEnabled=false;
 function sky(x,c1,c2){for(let y=0;y<108;y++){x.fillStyle=y<60?c1:c2;x.fillRect(0,y,192,1);}}
@@ -1198,7 +1190,7 @@ const SLIDES=[
    kid(x,74,98);airavata(x,24,84);ell(x,46,96,9,3,INK);spr(x,'pujari',48,98,1,0);for(let i=0;i<26;i++)R(x,(i*41)%192,(i*23)%56,2,2,['#ff8fb0','#ffe066','#fff'][i%3]);
    scow(x,110,100,0);scow(x,150,100,2,1);spr(x,'bhakti',176,98,1,4);spr(x,'keshava',96,102,0,4);}}];
 let slideI=0;function drawSlide(){SC.clearRect(0,0,192,108);SLIDES[slideI].d(SC);$('slideT').textContent=SLIDES[slideI].t;$('slPrev').disabled=slideI===0;$('slNext').textContent=slideI===SLIDES.length-1?'The end ♥':'Next ▶';}
-function slideGo(d){if(slideI===SLIDES.length-1&&d>0){$('slides').hidden=true;sticker('story');return;}slideI=Math.max(0,Math.min(SLIDES.length-1,slideI+d));drawSlide();}
+function slideGo(d){if(slideI===SLIDES.length-1&&d>0){$('slides').hidden=true;markDone('story');return;}slideI=Math.max(0,Math.min(SLIDES.length-1,slideI+d));drawSlide();}
 function openSlides(){closeDlg();slideI=0;drawSlide();$('slides').hidden=false;}
 $('slPrev').onclick=()=>slideGo(-1);$('slNext').onclick=()=>slideGo(1);$('slClose').onclick=()=>{$('slides').hidden=true;};
 /* ---- festivals ---- */
@@ -1252,7 +1244,7 @@ let snanaT=0,annakuta=0,vyasa=0,festEv=null;
 function festBusy(){return !!festEv||!!rathaEv||!!(boatRide&&boatRide.fest);}
 function celebrate(k){const f=festOf(k);if(!f)return;if(festBusy()){need('Please wait until the festival that is going on now is finished.');return;}S.fest=k;S.fests=S.fests||{};S.fests[k]=1;
   altarState.th=THEMES[f.theme];altarState.dress=f.dress;altarState.sandal=k==='chandana';altarState.lamps=f.act==='lamps';altarState.flowers=k==='jhulan';refreshAltar();
-  sfx.conch();toast('★ '+f.name,2200);sticker('fest');if(Object.keys(S.fests).length>=5)sticker('fest5');
+  sfx.conch();toast('★ '+f.name,2200);markDone('fest');if(Object.keys(S.fests).length>=5)markDone('fest5');
   annakuta=f.act==='annakuta';vyasa=f.act==='vyasa';
   if(f.act==='ratha')startRatha();
   if(f.act==='swing'){S.deco=3;maps.out.swing.img=swingImg2(3);}
@@ -1274,11 +1266,11 @@ function updFest(dt){const E=festEv,st=E.steps[E.si];E.t+=dt;const next=()=>{E.s
   if(st==='class'){if(E.t>45&&!E.listening)next();if(M===maps.temple&&E.sp&&Math.random()<dt*.4)bubble(E.sp,'…',1);}
   else if(st==='abhisheka'){if(M===maps.temple){schedBeats(E,420,E.goers.length);const cols=['#ffffff','#fff3d6','#ffe080','#f0b040','#d8f0ff','#ff8fb0'],c=cols[Math.min(5,Math.floor(E.t/3))];
       for(let k=0;k<3;k++)if(Math.random()<dt*14)parts.push({x:13*T+(Math.random()<.5?-18:20)+(Math.random()-.5)*10,y:2.6*T,vx:0,vy:46,t:0,life:1.3,k:'spark',c});
-      if(E.t<.05)sfx.conch();}if(E.t>18){sticker('abhisheka');next();}}
+      if(E.t<.05)sfx.conch();}if(E.t>18){markDone('abhisheka');next();}}
   else if(st==='arati'){if(!E.started){E.started=1;if(!aratiEv)startAratiEv();}else if(!aratiEv)next();}
-  else if(st==='feast'){S.queue=Math.min(8,S.queue+4);npcs.forEach(n=>{if(n.diner)n.served=0;});toast('Feast prasadam is ready!',1800);sticker('feast');next();}}
+  else if(st==='feast'){S.queue=Math.min(8,S.queue+4);npcs.forEach(n=>{if(n.diner)n.served=0;});toast('Feast prasadam is ready!',1800);markDone('feast');next();}}
 function listenClass(){const E=festEv;if(!E||E.steps[E.si]!=='class')return;E.listening=1;player.x=15.4*T;player.y=13.6*T;player.sit={o:{x:player.x,y:player.y},off:-4};player.dir=2;let i=0;
-  const show=()=>{const L=E.f.cls;openDlg(E.sp?E.sp.name:'Class',npcFace(E.sp?E.sp.key:'pujari'),L[i],E.sp?E.sp.voice:700,i<L.length-1?[{l:'Next',f:()=>{i++;show();}}]:[{l:'Haribol!',f:()=>{E.listening=0;sticker('class');E.t=99;}}]);};show();}
+  const show=()=>{const L=E.f.cls;openDlg(E.sp?E.sp.name:'Class',npcFace(E.sp?E.sp.key:'pujari'),L[i],E.sp?E.sp.voice:700,i<L.length-1?[{l:'Next',f:()=>{i++;show();}}]:[{l:'Haribol!',f:()=>{E.listening=0;markDone('class');E.t=99;}}]);};show();}
 /* ---- Ratha Yatra ---- */
 // Lord Baladeva (left, white, with the serpent hood), Subhadra (middle, yellow) and Lord Jagannatha (right, dark, big round eyes)
 const RATHA=mk(68,96,x=>{
@@ -1300,7 +1292,7 @@ const RATHA=mk(68,96,x=>{
   R(x,jx-8,jy-11,16,3,INK);R(x,jx-7,jy-10,14,1,P.gold);for(let k=0;k<4;k++)R(x,jx-6+k*4,jy-13,2,2,['#ff8fb0','#fff4d6','#ffb347','#86d06e'][k]);R(x,jx-9,jy+7,18,10,INK);R(x,jx-8,jy+8,16,8,'#f9c840');R(x,jx-8,jy+8,16,2,'#e03040');for(let k=0;k<8;k++)R(x,jx-7+k*2,jy+8+Math.abs(4-k),2,2,['#fff4d6','#ff8fb0','#ffb347'][k%3]);
   [[12,82],[56,82]].forEach(([wx,wy])=>{circ(x,wx,wy,12,INK);circ(x,wx,wy,11,'#a8764a');circ(x,wx,wy,7,'#7a4a3a');for(let k=0;k<10;k++){const a=k/10*6.28;R(x,Math.round(wx+Math.cos(a)*9),Math.round(wy+Math.sin(a)*9),2,2,P.gold);}circ(x,wx,wy,2,P.gold);});});
 let rathaEv=null;
-function startRatha(){if(rathaEv)return;if(festEv)endFestProgram();if(boatRide)endBoat();const g=npcs.filter(n=>['bhakti','keshava','lalita','vrinda','gaura','radhika'].includes(n.key)&&!n.follow&&!n.inArati&&!n.inBoat&&!n.cheer);g.forEach(n=>{park(n);if(n.m!==maps.out)moveEnt(n,maps.out);n.ratha=1;});rathaEv={x:6*T,y:25.8*T,dir:1,t:0,legs:0,pull:0,g};sticker('ratha');}
+function startRatha(){if(rathaEv)return;if(festEv)endFestProgram();if(boatRide)endBoat();const g=npcs.filter(n=>['bhakti','keshava','lalita','vrinda','gaura','radhika'].includes(n.key)&&!n.follow&&!n.inArati&&!n.inBoat&&!n.cheer);g.forEach(n=>{park(n);if(n.m!==maps.out)moveEnt(n,maps.out);n.ratha=1;});rathaEv={x:6*T,y:25.8*T,dir:1,t:0,legs:0,pull:0,g};markDone('ratha');}
 function updRatha(dt){const R0=rathaEv;R0.t+=dt;if(R0.pull>0)R0.pull-=dt;if(player.onRope){const i=R0.g.length;player.x=R0.x+R0.dir*(60+i*13);player.y=R0.y+(i%2?5:-5);player.dir=R0.dir>0?2:1;player.ft+=dt*7;player.f=Math.floor(player.ft)%4;player.moving=true;R0.pull=.3;}
   const sp=(R0.pull>0?36:20)*dt;R0.x+=R0.dir*sp;const ropeLen=60+(R0.g.length+(player.onRope?1:0))*13;if(R0.dir>0&&R0.x+ropeLen>49.5*T){R0.dir=-1;}if(R0.dir<0&&R0.x-ropeLen<2*T){R0.g.forEach(n=>{n.ratha=0;unpark(n);});if(player.onRope){player.onRope=false;unstick();}rathaEv=null;hearts(player.x,player.y-28,5);return;}
   R0.g.forEach((n,i)=>{n.x=R0.x+R0.dir*(60+i*13);n.y=R0.y+(i%2?5:-5);n.dir=R0.dir>0?2:1;n.ft+=dt*7;n.f=Math.floor(n.ft)%4;});
@@ -1318,7 +1310,7 @@ function startBoat(mode){if(mode===true)mode='fest';if(!mode)mode='solo';if(boat
   const mate=pool[0]||null,cheer=fest?pool.slice(1,7):[];
   if(mate){park(mate);moveEnt(mate,maps.out);mate.inBoat=1;mate.goal=null;}
   cheer.forEach((n,i)=>{park(n);moveEnt(n,maps.out);const f=freeSpot(maps.out,(25+i*4.2)*T,BANK_Y);n.x=f[0];n.y=f[1];n.cheer=1;n.dir=0;n.goal=null;n.f=0;});
-  boatRide={t:0,mate,cheer,fest,x:maps.out.boat.x,y:38*T+4};if(fest)sticker('boat');}
+  boatRide={t:0,mate,cheer,fest,x:maps.out.boat.x,y:38*T+4};if(fest)markDone('boat');}
 function boatFits(x,y){for(const [dx,dy] of [[-18,-3],[18,-3],[-18,5],[18,5],[0,5],[0,-3]]){const id=tileAt(maps.out,Math.floor((x+dx)/T),Math.floor((y+dy)/T));if(id!==2)return false;}return y+5<40*T;}
 function updBoat(dt){const b=boatRide;b.t+=dt;let mx=0,my=0;if(M===maps.out&&!dlg){if(keys.arrowleft||keys.a)mx--;if(keys.arrowright||keys.d)mx++;if(keys.arrowup||keys.w)my--;if(keys.arrowdown||keys.s)my++;}
   if(mx||my){const L=Math.hypot(mx,my),sp=34*dt,nx=b.x+mx/L*sp,ny=b.y+my/L*sp;if(boatFits(nx,b.y))b.x=nx;if(boatFits(b.x,ny))b.y=ny;}
@@ -1328,8 +1320,13 @@ function updBoat(dt){const b=boatRide;b.t+=dt;let mx=0,my=0;if(M===maps.out&&!dl
     if(!n.bub&&Math.random()<dt*.15)bubble(n,pick(['Jaya!','Haribol!','Jaya Radhe!','♪']),1.2);});
 }
 function endBoat(){const b=boatRide;boatRide=null;maps.out.boat.x=36*T+8;maps.out.boat.y=38*T+10;b.cheer.concat(b.mate?[b.mate]:[]).forEach(n=>{n.cheer=0;n.inBoat=0;n.f=0;n.hop=0;unpark(n);});player.x=34*T;player.y=37*T;unstick();if(b.fest)hearts(player.x,player.y-26,5);}
-$('bEnd').onclick=()=>{followers().forEach(stopFollow);};$('bEnd').textContent='End japa walk (X)';$('bookClose').onclick=()=>{$('book').hidden=true;};
-$('bHelp').onclick=()=>{$('help').hidden=false;};$('helpClose').onclick=()=>{$('help').hidden=true;};
+$('bEnd').onclick=()=>{followers().forEach(stopFollow);};$('bEnd').textContent='End japa walk (X)';
+$('bHelp').onclick=()=>{$('help').hidden=false;};
+function pauseGame(){if(!running||!$('start').hidden)return;running=false;$('pause').hidden=false;if(AC&&AC.state==='running')AC.suspend();save();}
+function resumeGame(){$('pause').hidden=true;$('help').hidden=true;running=true;last=performance.now();if(AC&&AC.state==='suspended')AC.resume();}
+$('bPause').onclick=pauseGame;$('pResume').onclick=resumeGame;$('pHelp').onclick=()=>{$('help').hidden=false;};
+$('pMenu').onclick=()=>{$('pause').hidden=true;$('start').hidden=false;document.body.classList.remove('playing');save();};
+document.addEventListener('visibilitychange',()=>{if(document.hidden)pauseGame();});$('helpClose').onclick=()=>{$('help').hidden=true;};
 $('bMusic').setAttribute('aria-pressed',musicOn);$('bMusic').onclick=()=>setMusic(!musicOn);
 
 /* ================= helpers ================= */
@@ -1355,12 +1352,12 @@ function frontPoint(){const d=DV[player.dir];return{x:player.x+d[0]*12,y:player.
 function interactTargets(){const fp=frontPoint(),out=[];
   if(M.name==='out'&&(S.tool==='can'||S.tool==='seeds')){const tt=tileTarget(Math.floor(fp.x/T),Math.floor(fp.y/T),fp);if(tt)return tt;}
   if(festEv&&M===maps.temple&&festEv.steps[festEv.si]==='class'&&festEv.sp&&Math.hypot(festEv.sp.x-player.x,festEv.sp.y-player.y)<70&&!festEv.listening)return{lbl:'Sit and listen to the class',fn:listenClass,x:festEv.sp.x,y:festEv.sp.y};
-  if(rathaEv&&M===maps.out){const R0=rathaEv;const g=R0.g[0];if(player.onRope)return{lbl:'Let go of the rope',fn:()=>{player.onRope=false;unstick();},x:player.x,y:player.y};if(g&&Math.abs(player.y-R0.y)<34&&(player.x-R0.x)*R0.dir>10&&(player.x-R0.x)*R0.dir<160)return{lbl:'Grab the rope and pull',fn:()=>{player.onRope=true;sfx.pop();hearts(player.x,player.y-26,2);sticker('pullrope');},x:player.x,y:player.y};}
+  if(rathaEv&&M===maps.out){const R0=rathaEv;const g=R0.g[0];if(player.onRope)return{lbl:'Let go of the rope',fn:()=>{player.onRope=false;unstick();},x:player.x,y:player.y};if(g&&Math.abs(player.y-R0.y)<34&&(player.x-R0.x)*R0.dir>10&&(player.x-R0.x)*R0.dir<160)return{lbl:'Grab the rope and pull',fn:()=>{player.onRope=true;sfx.pop();hearts(player.x,player.y-26,2);markDone('pullrope');},x:player.x,y:player.y};}
   {const tool=player.held==='mop'?'mop':(curK()==='broom'&&!player.held)?'broom':null;if(tool){let best=null,bd=26;(M.dust||[]).forEach(d=>{if((tool==='mop')!==(d.k===3))return;const dd=Math.min(Math.hypot(d.x-fp.x,d.y-fp.y),Math.hypot(d.x-player.x,d.y-player.y));if(dd<bd){bd=dd;best=d;}});if(best)return{lbl:tool==='mop'?'Mop':'Sweep',fn:()=>sweep(best),x:best.x,y:best.y};}
    if(player.held==='duster'){let best=null,bd=46;(M.dustables||[]).forEach(o=>{if(!o.dusty)return;const d=Math.hypot(o.x-player.x,o.y-12-player.y);if(d<bd){bd=d;best=o;}});if(best)return{lbl:'Dust',fn:()=>dustObj(best),x:best.x,y:best.y};}}
   if(aratiEv&&aratiEv.byPlayer&&M===maps.temple){if(!aratiEv.wait)return null;const st=ARATI_STEPS[aratiEv.si];if(!st)return null;return{lbl:PSTEP[st.k],fn:()=>{aratiEv.wait=false;if(st.k==='conch'||st.k==='conchEnd'){for(let i=0;i<3;i++)setTimeout(()=>sfx.conch(),i*1200);}if(st.k==='conchEnd')aratiEv.goers.forEach(g=>g.bow=2.4);},x:player.x,y:player.y};}
   if(aratiEv&&aratiEv.step==='share'&&M===maps.temple){const L=carrierAt('lamp'),F=carrierAt('flowers');
-    if(L&&!aratiEv.warm.lamp)return{lbl:'Honour the ghee lamp',fn:()=>{aratiEv.warm.lamp=1;hearts(player.x,player.y-30,4);sparkle(player.x,player.y-34,8,'#ffcf5a');sticker('warmth');},x:L.x,y:L.y};
+    if(L&&!aratiEv.warm.lamp)return{lbl:'Honour the ghee lamp',fn:()=>{aratiEv.warm.lamp=1;hearts(player.x,player.y-30,4);sparkle(player.x,player.y-34,8,'#ffcf5a');markDone('warmth');},x:L.x,y:L.y};
     if(F&&!aratiEv.warm.flowers)return{lbl:'Honour the flower',fn:()=>{aratiEv.warm.flowers=1;hearts(player.x,player.y-30,4);sparkle(player.x,player.y-34,8,'#ffb6cf');},x:F.x,y:F.y};}
 
   for(const o of M.objs)if(o.act&&(!o.need||o.need())){const cx=o.solid?o.solid[0]+o.solid[2]/2:o.x,cy=o.solid?o.solid[1]+o.solid[3]/2:o.y-6;
@@ -1394,28 +1391,28 @@ function useAction(){if(dlg){advanceDlg();return;}
   if(busy())return;
   const tg=interactTargets();
   if(player.held==='conch'&&(!tg||!tg.o)){blowConch();return;}
-  if(player.held==='prasadam'&&(!tg||!/^(Talk|Meet)/.test(tg.lbl))){player.held=null;hearts(player.x,player.y-28,5);sticker('prasadam');return;}
+  if(player.held==='prasadam'&&(!tg||!/^(Talk|Meet)/.test(tg.lbl))){player.held=null;hearts(player.x,player.y-28,5);markDone('prasadam');return;}
   if(tg){tg.fn();return;}
   if(kirtan){kirtan.t=99;return;}
   const sk=curK();if(sk==='japa'){chant();return;}
   if(player.held){return;}}
 function jump(){if(player.jump>0||player.sit||busy())return;player.jump=.5;tone(520,.12,'sine',.03,0,880);npcs.forEach(n=>{if(n.m===M&&(n.follow||n.inArati||(kirtan&&kirtan.who.includes(n)))&&Math.hypot(n.x-player.x,n.y-player.y)<8*T)setTimeout(()=>{n.hop=1;},80+Math.random()*200);});}
 function busy(){return !!boatRide||!!(aratiEv&&aratiEv.byPlayer)||player.bow>0||player.arati>0||player.swing>0||!!ball;}
-function chant(){if(!running)return;if(japaT>=0&&japaT<4.2)return;S.japa++;japaT=0;japaVoice(followers().length);if(S.japa%108===0){S.rounds++;sticker('japa');sparkle(player.x,player.y-28,14);sfx.chime();}save();}
-function bow(){if(busy())return;player.bow=2.4;followers().forEach(f=>f.bow=2.4);sfx.blip();setTimeout(()=>{const near=M.name==='temple'?'Radha-Syamasundara and Srila Prabhupada':'the Vaishnavas';sticker('bow');},900);}
+function chant(){if(!running)return;if(japaT>=0&&japaT<4.2)return;S.japa++;japaT=0;japaVoice(followers().length);if(S.japa%108===0){S.rounds++;markDone('japa');sparkle(player.x,player.y-28,14);sfx.chime();}save();}
+function bow(){if(busy())return;player.bow=2.4;followers().forEach(f=>f.bow=2.4);sfx.blip();setTimeout(()=>{const near=M.name==='temple'?'Radha-Syamasundara and Srila Prabhupada':'the Vaishnavas';markDone('bow');},900);}
 
 function actAltar(){const sk=curK();player.dir=3;
   if(player.held==='lamp'){player.arati=5;player.aratiK='lamp';sfx.conch();followers().forEach(f=>{f.bow=2.4;});return;}
   if(player.held==='incense'){player.arati=4;player.aratiK='incense';sfx.bell();return;}
   if(player.held==='chamara'){player.arati=5;player.aratiK='chamara';return;}
   if(player.held==='conch'){blowConch();return;}
-  if(player.held==='bhoga'){if(altarPlate>0){need('Please wait a moment.');return;}player.held=null;altarState.sr=1;refreshAltar();altarPlate=7;sfx.bell();sticker('bhoga2');return;}
-  if(player.held==='sweetrice'){if(altarPlate>0){need('Radha-Syamasundara are still enjoying the last offering. Wait a moment!');return;}player.held=null;altarState.sr=1;refreshAltar();altarPlate=7;sfx.bell();sticker('offercook');return;}
-  if(sk==='tulasi'&&S.inv.tulasi>0){S.inv.tulasi--;altarState.t=Math.min(6,(altarState.t||0)+2);refreshAltar();updBar();sfx.chime();sparkle(13*T-18,6*T,8,'#86d06e');sticker('tulasi2');return;}
-  if(sk==='fruit'&&S.inv.fruit>0){if(altarPlate>0){need('Radha-Syamasundara are still enjoying the last offering. Wait a moment!');return;}const n=Math.min(6,S.inv.fruit);S.inv.fruit-=n;altarState.fr=n;refreshAltar();updBar();altarPlate=7;sfx.bell();sticker('bhoga');return;}
-  if(sk==='garland'&&S.inv.garland>0){S.inv.garland--;altarState.g=Math.min(2,altarState.g+1);refreshAltar();updBar();petals(13*T,7*T,10);sfx.chime();sticker('garland');return;}
-  if(sk==='flowers'&&S.inv.flowers>0){const n=S.inv.flowers;S.inv.flowers=0;altarState.f+=n;refreshAltar();updBar();petals(13*T,7*T,18);sfx.chime();sticker('flowers');return;}
-  sticker('darshan');sparkle(13*T,6*T,12);}
+  if(player.held==='bhoga'){if(altarPlate>0){need('Please wait a moment.');return;}player.held=null;altarState.sr=1;refreshAltar();altarPlate=7;sfx.bell();markDone('bhoga2');return;}
+  if(player.held==='sweetrice'){if(altarPlate>0){need('Radha-Syamasundara are still enjoying the last offering. Wait a moment!');return;}player.held=null;altarState.sr=1;refreshAltar();altarPlate=7;sfx.bell();markDone('offercook');return;}
+  if(sk==='tulasi'&&S.inv.tulasi>0){S.inv.tulasi--;altarState.t=Math.min(6,(altarState.t||0)+2);refreshAltar();updBar();sfx.chime();sparkle(13*T-18,6*T,8,'#86d06e');markDone('tulasi2');return;}
+  if(sk==='fruit'&&S.inv.fruit>0){if(altarPlate>0){need('Radha-Syamasundara are still enjoying the last offering. Wait a moment!');return;}const n=Math.min(6,S.inv.fruit);S.inv.fruit-=n;altarState.fr=n;refreshAltar();updBar();altarPlate=7;sfx.bell();markDone('bhoga');return;}
+  if(sk==='garland'&&S.inv.garland>0){S.inv.garland--;altarState.g=Math.min(2,altarState.g+1);refreshAltar();updBar();petals(13*T,7*T,10);sfx.chime();markDone('garland');return;}
+  if(sk==='flowers'&&S.inv.flowers>0){const n=S.inv.flowers;S.inv.flowers=0;altarState.f+=n;refreshAltar();updBar();petals(13*T,7*T,18);sfx.chime();markDone('flowers');return;}
+  markDone('darshan');sparkle(13*T,6*T,12);}
 let altarPlate=0;
 function actPuja(){if(['incense','conch','chamara'].includes(player.held)){player.held=null;return;}if(player.held){need('Your hands are full.');return;}
   openDlg('Puja tray',{img:PUJA,sx:6,sy:0,sw:20,sh:20},'What would you like to offer?',null,[
@@ -1424,11 +1421,11 @@ function actPuja(){if(['incense','conch','chamara'].includes(player.held)){playe
     {l:'Chamara whisk',f:()=>{player.held='chamara';sfx.pick();}}]);}
 function actLamp(){const st=M.stand;if(player.held==='lamp'){player.held=null;st.img=STAND[1];return;}if(player.held){need('Your hands are full.');return;}player.held='lamp';st.img=STAND[0];sfx.pick();}
 let tulasiPick=0;
-function actTulasi(){const o=[{l:'Water Tulasi Devi',f:()=>{sfx.water();for(let i=0;i<8;i++)parts.push({x:22*T-6+Math.random()*12,y:14*T-6,vx:0,vy:30,t:-i*.05,life:.45,k:'drop'});hearts(22*T,14*T-10,3);sticker('tulasiwater');}},
+function actTulasi(){const o=[{l:'Water Tulasi Devi',f:()=>{sfx.water();for(let i=0;i<8;i++)parts.push({x:22*T-6+Math.random()*12,y:14*T-6,vx:0,vy:30,t:-i*.05,life:.45,k:'drop'});hearts(22*T,14*T-10,3);markDone('tulasiwater');}},
   {l:tulasiPick>0?'Pick leaves (soon)':'Pick Tulasi leaves',f:()=>{if(tulasiPick>0){need('Let Tulasi Devi rest a little before picking more leaves.');return;}if(!take('tulasi',2))return;tulasiPick=40;sfx.pick();sparkle(22*T,14*T,6,'#86d06e');}},
   {l:'Offer obeisances',f:()=>{player.dir=dirTo(player,{x:22*T,y:15*T});bow();}}];
   openDlg('Tulasi Devi',{img:TULASI,sx:2,sy:0,sw:20,sh:20},'Jaya Tulasi Devi! Walk all the way around her for parikrama.',null,o);}
-function blowConch(){player.held=null;for(let i=0;i<3;i++)setTimeout(()=>{sfx.conch();sparkle(player.x,player.y-30,4);},i*1300);sticker('conch');}
+function blowConch(){player.held=null;for(let i=0;i<3;i++)setTimeout(()=>{sfx.conch();sparkle(player.x,player.y-30,4);},i*1300);markDone('conch');}
 function actCloset(){const o=[],h=player.held;
   if(S.tool==='broom')o.push({l:'Put the broom back',f:dropTool});
   if(h==='mop'||h==='duster')o.push({l:h==='mop'?'Put the mop back':'Put the dusting cloth back',f:()=>{player.held=null;sfx.pick();updBar();}});
@@ -1451,18 +1448,18 @@ function drawDusty(o){const w=o.img.width,X0=Math.round(o.x+o.ox-cam.x),Y0=Math.
   R(G,cx-6,cy,7,1,c);R(G,cx,cy,1,7,c);for(let k=1;k<6;k++)R(G,cx-k,cy+k,1,1,c);R(G,cx-4,cy+2,2,1,c);R(G,cx-2,cy+4,1,2,c);R(G,cx-3,cy+1,1,1,c);R(G,cx-1,cy+3,1,1,c);
   for(let i=0;i<3;i++){const t=(tNow*.35+i/3)%1,px=Math.round(X0+w*(.25+.25*i)+Math.sin(tNow*1.7+i*2)*2),py=Math.round(Y0+4-t*10);G.globalAlpha=.75*(1-t);ell(G,px,py,2,1,'#c9bfc6');G.globalAlpha=1;}}
 function dustObj(o){o.dusty=0;sfx.splash();for(let i=0;i<8;i++)parts.push({x:o.x+(Math.random()-.5)*16,y:o.y-10-Math.random()*30,vx:(Math.random()-.5)*20,vy:-6,t:0,life:.7,k:'smoke'});checkClean();}
-function checkClean(){const left=maps.temple.dust.length+maps.out.dust.length+(maps.temple.dustables||[]).filter(p=>p.dusty).length;if(!left){sticker('sweep');hearts(player.x,player.y-28,4);}}
+function checkClean(){const left=maps.temple.dust.length+maps.out.dust.length+(maps.temple.dustables||[]).filter(p=>p.dusty).length;if(!left){markDone('sweep');hearts(player.x,player.y-28,4);}}
 function sitDown(o,off){player.sit={o,off};player.x=o.x;player.y=o.y+2;player.dir=0;player.target=null;sfx.blip();}
 function actBed(o){if(o&&o.solid){const s=o.solid,dx=Math.max(s[0]-player.x,0,player.x-(s[0]+s[2])),dy=Math.max(s[1]-player.y,0,player.y-(s[1]+s[3]));if(Math.hypot(dx,dy)>10){need('Walk right up to your bed first.');return;}}if(S.min>=18*60){sleepT=4;S.night=true;dressMe();toast('Good night! Hare Krishna.');}else need('It is still daytime. Come back in the evening to sleep.');}
-let homeLamp=0;function actHomeAltar(){const o=[{l:'Offer obeisances',f:()=>{player.dir=3;bow();}},{l:homeLamp?'The lamp is lit':'Light a ghee lamp',f:()=>{homeLamp=1;sfx.bell();sparkle(M.halt.x,M.halt.y-30,8,'#ffcf5a');sticker('homealtar');}}];
-  if(S.inv.flowers>0)o.push({l:'Offer a flower',f:()=>{S.inv.flowers--;updBar();petals(M.halt.x,M.halt.y,6);sfx.chime();sticker('homealtar');}});openDlg(OWNER+'\'s altar',{img:HALTAR,sx:4,sy:0,sw:36,sh:36},'',null,o);}
+let homeLamp=0;function actHomeAltar(){const o=[{l:'Offer obeisances',f:()=>{player.dir=3;bow();}},{l:homeLamp?'The lamp is lit':'Light a ghee lamp',f:()=>{homeLamp=1;sfx.bell();sparkle(M.halt.x,M.halt.y-30,8,'#ffcf5a');markDone('homealtar');}}];
+  if(S.inv.flowers>0)o.push({l:'Offer a flower',f:()=>{S.inv.flowers--;updBar();petals(M.halt.x,M.halt.y,6);sfx.chime();markDone('homealtar');}});openDlg(OWNER+'\'s altar',{img:HALTAR,sx:4,sy:0,sw:36,sh:36},'',null,o);}
 let stoveT=0,feastT=0,stoveMade='bhoga';
 function actStove(){if(stoveT>0)return;if(player.held==='milk'){player.held=null;stoveT=5;stoveMade='sweetrice';sfx.pop();return;}if(player.held){need('Your hands are full.');return;}stoveMade='bhoga';if(!S.fresh){need('Bathe and put on fresh clothes before cooking for the Deities.');return;}stoveT=5;player.target=null;sfx.pop();}
 function actFeast(){if(feastT>0)return;feastT=4;sfx.pop();bubble(npcByKey('govinda'),'Stir, stir!',2);}
 function actBath(){sfx.splash();setTimeout(sfx.splash,300);for(let i=0;i<10;i++)parts.push({x:player.x+(Math.random()-.5)*12,y:player.y-34,vx:0,vy:30,t:-i*.05,life:.5,k:'drop'});S.bathed=1;sparkle(player.x,player.y-20,8,'#a9e1f6');}
 function actRack(){const g=LOOK[S.look||'girl'].girl?'girl':'boy',o=[];
   
-  if(S.bathed)OUTFITS[g].forEach((c,i)=>o.push({l:c[0],f:()=>{S.outfit=i;S.night=false;S.fresh=1;dressMe();sfx.chime();sparkle(player.x,player.y-20,12);sticker('fresh');save();}}));
+  if(S.bathed)OUTFITS[g].forEach((c,i)=>o.push({l:c[0],f:()=>{S.outfit=i;S.night=false;S.fresh=1;dressMe();sfx.chime();sparkle(player.x,player.y-20,12);markDone('fresh');save();}}));
   if(!S.night)o.push({l:'Pajamas',f:()=>{S.night=true;dressMe();sfx.pick();save();}});
   if(!S.bathed)o.unshift({l:'(Bathe first for fresh clothes)',f:()=>need('Take a shower first, then choose fresh clothes.')});
   openDlg('Wardrobe',{img:CUPB,sx:0,sy:0,sw:CUPB.width,sh:Math.min(CUPB.height,CUPB.width)},'',null,o);}
@@ -1479,32 +1476,32 @@ function spawnDust(){const ok=(m,x,y)=>boxFree(m,x,y)&&!SOLID.has(tileAt(m,Math.
   for(let i=0;i<60&&maps.out.dust.length<5;i++){const x=(18+Math.random()*8)*T,y=(11+Math.random()*7)*T;if(tileAt(maps.out,Math.floor(x/T),Math.floor(y/T))===1&&ok(maps.out,x,y))maps.out.dust.push({x,y,k:Math.floor(Math.random()*3)});}}
 
 function actLampPost(o){if(nightLevel()<.08){need('Come back in the evening to light the lamps.');return;}if(o.lit){need('This lamp is already shining.');return;}o.lit=1;sfx.chime();sparkle(o.x,o.y-26,6,'#ffcf5a');
-  const all=maps.out.objs.filter(q=>q.post);if(all.every(q=>q.lit)){sticker('dipa');}else 0;}
-function shareWith(n){player.held=null;hearts(n.x,n.y-26,5);n.hop=1;bubble(n,'Haribol! Thank you!',2);sticker('share');}
+  const all=maps.out.objs.filter(q=>q.post);if(all.every(q=>q.lit)){markDone('dipa');}else 0;}
+function shareWith(n){player.held=null;hearts(n.x,n.y-26,5);n.hop=1;bubble(n,'Haribol! Thank you!',2);markDone('share');}
 function getMilk(n){if(player.held){openDlg(n.name,npcFace(n.key),'Your hands are full! Come back when they are free.',n.voice);return;}if(milkWait>0){openDlg(n.name,npcFace(n.key),'The cows have given all their milk for now. Come back a little later!',n.voice);return;}
   milkWait=60;player.held='milk';sfx.pick();openDlg(n.name,npcFace(n.key),'Here is fresh milk from our happy cows! The pujari can cook it in the Deity kitchen, through the curtain on the right of the temple room.',n.voice);}
 let milkWait=0;
 function actCow(c){const has=S.inv.grass>0;const o=[{l:'Pet '+c.name,f:()=>{c.happy=1.8;sfx.moo();hearts(c.x,c.y-22,3);markPet('cow');}}];
-  o.push(has?{l:'Feed fresh grass',f:()=>{S.inv.grass--;updBar();c.happy=2.5;sfx.moo();hearts(c.x,c.y-22,5);sticker('cow');markFed('cow');}}:{l:'Feed (cut tall grass first)',f:()=>need('Cut some tall grass first, then come back!')});
-  o.push({l:'Both!',f:()=>{c.happy=3;sfx.moo();hearts(c.x,c.y-22,6);if(has){S.inv.grass--;updBar();sticker('cow');}else 0;}});
+  o.push(has?{l:'Feed fresh grass',f:()=>{S.inv.grass--;updBar();c.happy=2.5;sfx.moo();hearts(c.x,c.y-22,5);markDone('cow');markFed('cow');}}:{l:'Feed (cut tall grass first)',f:()=>need('Cut some tall grass first, then come back!')});
+  o.push({l:'Both!',f:()=>{c.happy=3;sfx.moo();hearts(c.x,c.y-22,6);if(has){S.inv.grass--;updBar();markDone('cow');}else 0;}});
   openDlg(c.name,{img:c.imgs[0],sx:0,sy:0,sw:15,sh:16},'Mooo! '+c.name+' looks at you with big gentle eyes.','moo',o);}
-function actPeacock(p){const dance=()=>{p.dance=5;sfx.peacock();sticker('peacock');};
+function actPeacock(p){const dance=()=>{p.dance=5;sfx.peacock();markDone('peacock');};
   actAnimal('Peacock',{img:PK.a[0],sx:0,sy:0,sw:18,sh:20},'grains',()=>{p.dance=2;hearts(p.x,p.y-20,3);sfx.peacock();markPet('peacock');},()=>{hearts(p.x,p.y-20,4);markFed('peacock');},{l:'Ask him to dance',f:dance});}
 function actParrot(){actAnimal('Parrots',{img:PARROT[0],sx:0,sy:0,sw:14,sh:16},'fruit',()=>{parrots.forEach(p=>{p.flap=1;p.talk=1.8;p.text='Haribol!';});hearts(12*T,11*T-40,3);sfx.chirp();markPet('parrot');},()=>{S.inv.fruit++;parrotTalk(1);},{l:'Listen to them chant',f:()=>parrotTalk(0)});}
-function parrotTalk(feed){if(feed&&S.inv.fruit>0){S.inv.fruit--;updBar();parrots.forEach(p=>{p.flap=1.2;p.talk=2;p.text='Yummy! Haribol!';});hearts(12*T,11*T-40,4);sfx.chirp();sticker('parrotfeed');markFed('parrot');return;}
-  const w=pick(['Hare Krishna!','Haribol!','Jaya Radhe!','Govinda!','Radhe Radhe!','Gauranga!']);const p=pick(parrots.filter(q=>!q.fly))||parrots[0];p.fly=0;p.flap=.8;p.talk=2.2;p.text=w;sfx.chirp();babble(w,1900);sticker('parrot');}
-function pickTree(o){const g=TREEGIFT[o.tree];if(o.bare>0){need('You already picked this tree. It is growing more!');return;}if(!take(g[0],2))return;o.bare=50;o.img=TREES[o.tree+'_b'];sfx.pick();sparkle(o.x,o.y-30,8);sticker('pick');}
-function actSwing(){if(curK()==='flowers'&&S.inv.flowers>=2){S.inv.flowers-=2;updBar();S.deco=Math.min(3,S.deco+1);M.swing.img=swingImg2(S.deco);sfx.chime();sticker('jhulan');return;}doSwing();}
+function parrotTalk(feed){if(feed&&S.inv.fruit>0){S.inv.fruit--;updBar();parrots.forEach(p=>{p.flap=1.2;p.talk=2;p.text='Yummy! Haribol!';});hearts(12*T,11*T-40,4);sfx.chirp();markDone('parrotfeed');markFed('parrot');return;}
+  const w=pick(['Hare Krishna!','Haribol!','Jaya Radhe!','Govinda!','Radhe Radhe!','Gauranga!']);const p=pick(parrots.filter(q=>!q.fly))||parrots[0];p.fly=0;p.flap=.8;p.talk=2.2;p.text=w;sfx.chirp();babble(w,1900);markDone('parrot');}
+function pickTree(o){const g=TREEGIFT[o.tree];if(o.bare>0){need('You already picked this tree. It is growing more!');return;}if(!take(g[0],2))return;o.bare=50;o.img=TREES[o.tree+'_b'];sfx.pick();sparkle(o.x,o.y-30,8);markDone('pick');}
+function actSwing(){if(curK()==='flowers'&&S.inv.flowers>=2){S.inv.flowers-=2;updBar();S.deco=Math.min(3,S.deco+1);M.swing.img=swingImg2(S.deco);sfx.chime();markDone('jhulan');return;}doSwing();}
 function plant(key,kind){M.plots[key]={k:kind,st:0,w:0,t:0};sfx.pop();redrawPlot(key);}
-function waterPlot(key){const p=M.plots[key];sfx.water();if(p){if(!p.w&&p.st<3){p.w=1;p.t=0;sticker('water');}}redrawPlot(key);const [tx,ty]=key.split(',').map(Number);for(let i=0;i<5;i++)parts.push({x:tx*T+4+Math.random()*8,y:ty*T,vx:0,vy:30,t:-i*.05,life:.4,k:'drop'});}
-function harvest(key){if(!take('flowers',3))return;const p=M.plots[key];delete M.plots[key];sfx.pick();redrawPlot(key);const [tx,ty]=key.split(',').map(Number);sparkle(tx*T+8,ty*T,8);sticker('harvest');}
+function waterPlot(key){const p=M.plots[key];sfx.water();if(p){if(!p.w&&p.st<3){p.w=1;p.t=0;markDone('water');}}redrawPlot(key);const [tx,ty]=key.split(',').map(Number);for(let i=0;i<5;i++)parts.push({x:tx*T+4+Math.random()*8,y:ty*T,vx:0,vy:30,t:-i*.05,life:.4,k:'drop'});}
+function harvest(key){if(!take('flowers',3))return;const p=M.plots[key];delete M.plots[key];sfx.pick();redrawPlot(key);const [tx,ty]=key.split(',').map(Number);sparkle(tx*T+8,ty*T,8);markDone('harvest');}
 function redrawPlot(key){const [tx,ty]=key.split(',').map(Number);redrawTile(M,tx,ty);}
 function pickBed(key,tx,ty){if(M.beds[key]>0){need('The flowers are still growing back.');return;}if(!take('flowers',2))return;M.beds[key]=40;sfx.pick();redrawTile(M,tx,ty);sparkle(tx*T+8,ty*T+4,6);if(S.inv.flowers>=5)toast('5 flowers! Bring them to Vrinda for a garland.');}
 function cutGrass(key,tx,ty){if(!take('grass',2))return;M.cut[key]=45;setT(M,tx,ty,0);redrawTile(M,tx,ty);noise(.15,.06,3000);}
 function plip(v=1){tone(1300+Math.random()*500,.07,'sine',.018*v,0,700);}
-function feedFish(x,y){for(let i=0;i<8;i++)pellets.push({x:x+(Math.random()-.5)*20,y:y+(Math.random()-.5)*14,t:6});fish.forEach(f=>{f.feed=6;f.tx=x;f.ty=y;});plip();setTimeout(plip,120);setTimeout(plip,260);sticker('fish');}
-function floatDiya(x,y){if(diyas.length>10)diyas.shift();diyas.push({x,y,t:0});sfx.splash();sticker('diya');}
-function doSwing(){if(busy())return;player.swing=6;player.x=M.swing.x;player.y=M.swing.y-6;player.dir=0;sticker('swing');}
+function feedFish(x,y){for(let i=0;i<8;i++)pellets.push({x:x+(Math.random()-.5)*20,y:y+(Math.random()-.5)*14,t:6});fish.forEach(f=>{f.feed=6;f.tx=x;f.ty=y;});plip();setTimeout(plip,120);setTimeout(plip,260);markDone('fish');}
+function floatDiya(x,y){if(diyas.length>10)diyas.shift();diyas.push({x,y,t:0});sfx.splash();markDone('diya');}
+function doSwing(){if(busy())return;player.swing=6;player.x=M.swing.x;player.y=M.swing.y-6;player.dir=0;markDone('swing');}
 /* friends: kirtan, japa walk, catch */
 const MANTRA=['Hare Krishna Hare Krishna','Krishna Krishna Hare Hare','Hare Rama Hare Rama','Rama Rama Hare Hare'];
 let aratiEv=null;const PSTEP={acamana:'Purify your hands with water (acamana)',conch:'Blow the conch three times',incense:'Offer the incense',lamp:'Offer the ghee lamp',water:'Offer water in the conch',cloth:'Offer the cloth',flowers:'Offer the flowers',chamara:'Fan with the chamara',share:'Give the lamp and flower to the devotees',conchEnd:'Blow the conch to finish'};
@@ -1542,12 +1539,12 @@ function startAratiEv(byP){if(aratiEv)return;const tm=maps.temple;const goers=np
   const spots=[[10,11],[16,11],[9,13],[17,13],[11,14],[15,14],[13,15]];goers.forEach((n,i)=>{n.saved={x:n.x,y:n.y};if(!n.inFest)moveEnt(n,tm);else n.saved=null;n.x=spots[i][0]*T+8;n.y=spots[i][1]*T+8;n.inArati=1;n.dir=3;n.goal=null;n.near=0;});
   aratiEv={t:0,goers,beat:-1,line:-1,byPlayer:!!byP};if(byP){player.x=13*T-40;player.y=9*T+11;player.dir=2;player.held=null;player.target=null;player.sit=null;}else{sfx.conch();toast(M===tm?'Arati time!':'Arati is starting in the temple!',2600);}}
 function templeMess(){const tm=maps.temple,L=tm.dust||(tm.dust=[]);for(let i=0;i<40&&L.length<12;i++){const x=(3+Math.random()*20)*T,y=(10.5+Math.random()*5)*T;if(walkFree(tm,x,y))L.push({x,y,k:Math.random()<.35?3:Math.floor(Math.random()*3)});}}
-function endArati(){templeMess();if(aratiEv.byPlayer){S.washed=0;player.x=13*T-40;player.y=10*T+14;player.dir=3;sticker('pujari');}(aratiEv.carriers||[]).forEach(c=>c.n.carry=0);npcs.forEach(n=>{n.bub=null;n.hop=0;n.f=0;});if(maps.temple.stand)maps.temple.stand.img=STAND[1];if(M===maps.temple)take('flowers',1,true);aratiEv.goers.forEach(n=>{n.inArati=0;if(!n.follow&&n.saved){moveEnt(n,n.home);n.x=n.saved.x;n.y=n.saved.y;}});aratiEv=null;if(M===maps.temple){}}
+function endArati(){templeMess();if(aratiEv.byPlayer){S.washed=0;player.x=13*T-40;player.y=10*T+14;player.dir=3;markDone('pujari');}(aratiEv.carriers||[]).forEach(c=>c.n.carry=0);npcs.forEach(n=>{n.bub=null;n.hop=0;n.f=0;});if(maps.temple.stand)maps.temple.stand.img=STAND[1];if(M===maps.temple)take('flowers',1,true);aratiEv.goers.forEach(n=>{n.inArati=0;if(!n.follow&&n.saved){moveEnt(n,n.home);n.x=n.saved.x;n.y=n.saved.y;}});aratiEv=null;if(M===maps.temple){}}
 let kirtan=null,ball=null;const trail=[];
 function followers(){return npcs.filter(n=>n.follow);}
 function startKirtan(n){const who=npcs.filter(m=>m.m===M&&(m===n||Math.hypot(m.x-player.x,m.y-player.y)<6*T||m.follow));kirtan={t:0,who,beat:-1,line:-1};who.forEach(w=>w.dir=dirTo(w,player));
-  sticker('kirtan');toast((who.length>1?who.map(w=>w.name).join(', ')+' sing':n.name+' sings')+' kirtan with you! Walk around or stand still to dance. Press E to stop.',4500);}
-function startFollow(n){n.follow=1;n.goal=null;sticker('japawalk');toast(n.name+' joins your japa walk! J to chant together, Q to bow together, X to end the walk.',4500);bubble(n,'Hare Krishna!',2);}
+  markDone('kirtan');toast((who.length>1?who.map(w=>w.name).join(', ')+' sing':n.name+' sings')+' kirtan with you! Walk around or stand still to dance. Press E to stop.',4500);}
+function startFollow(n){n.follow=1;n.goal=null;markDone('japawalk');toast(n.name+' joins your japa walk! J to chant together, Q to bow together, X to end the walk.',4500);bubble(n,'Hare Krishna!',2);}
 function stopFollow(n){n.follow=0;n.goal=null;if(n.m!==n.home){moveEnt(n,n.home);n.x=n.hx;n.y=n.hy;}toast(n.name+': Haribol! See you soon!');}
 function park(n){n.park={m:n.m,x:n.x,y:n.y};}
 function unpark(n){const q=n.park;n.park=null;if(!q||n.follow)return;if(n.m!==q.m)moveEnt(n,q.m);n.x=q.x;n.y=q.y;}
@@ -1555,16 +1552,16 @@ function moveEnt(e,m){const i=e.m.ents.indexOf(e);if(i>=0)e.m.ents.splice(i,1);e
 function startCatch(n){ball={n,t:0,ph:'to',score:0,throws:1};n.dir=dirTo(n,player);player.dir=dirTo(player,n);}
 /* ================= input ================= */
 const keys={};
-addEventListener('keydown',e=>{if(!$('start').hidden)return;const k=e.key.toLowerCase();
+addEventListener('keydown',e=>{if(!$('start').hidden)return;if(!$('pause').hidden){const k0=e.key.toLowerCase();if(k0==='p'||k0==='escape'||k0==='enter')resumeGame();return;}const k=e.key.toLowerCase();
   if(['arrowup','arrowdown','arrowleft','arrowright',' '].includes(k))e.preventDefault();
   keys[k]=1;ac();if(musicOn&&!mus)startMusic();
   if(!$('slides').hidden){if(k==='arrowright'||k==='e')slideGo(1);else if(k==='arrowleft')slideGo(-1);else if(k==='x'||k==='escape')$('slides').hidden=true;return;}
   if(!$('fest').hidden){if(k==='x'||k==='escape')$('fest').hidden=true;return;}
-  if(!$('book').hidden||!$('help').hidden){if(k==='escape'||k==='b'||k==='x'){$('book').hidden=true;$('help').hidden=true;}return;}
+  if(!$('help').hidden){if(k==='escape'||k==='x'){$('help').hidden=true;}return;}
   if(k==='x'||k==='escape'){exitAnything();return;}
   if(dlg&&dlg.opts&&k>='1'&&k<='9'){chooseOpt(+k-1);return;}if(k==='escape'&&dlg){closeDlg();return;}
   if(k===' '){jump();return;}
-  if(k==='e'||k==='enter')useAction();else if(k==='j')chant();else if(k==='q')bow();else if(k==='b')openBook();else if(k==='m')setMusic(!musicOn);
+  if(k==='e'||k==='enter')useAction();else if(k==='j')chant();else if(k==='q')bow();else if(k==='p')pauseGame();else if(k==='m')setMusic(!musicOn);
   });
 addEventListener('keyup',e=>{keys[e.key.toLowerCase()]=0;});
 let scale=1;
@@ -1609,9 +1606,9 @@ let fade=0,clockAcc=0,sleepT=0;const CIRC=[{name:'Tulasi Devi',x:22*T,y:13.5*T,r
 function update(dt){
   // time
   if(!sleepT){clockAcc+=dt;while(clockAcc>=1.5){clockAcc-=1.5;S.min+=1;if(S.min===4*60+30||S.min===12*60+30||S.min===19*60)startAratiEv();if(S.min>=22*60){sleepT=4;toast('Sayana arati. Radha and Krishna rest now. Good night!',3800);}}}
-  else{sleepT-=dt;if(sleepT<=0){sleepT=0;S.min=4*60;S.day++;wakeInAshram();S.fest=null;if(festEv)endFestProgram();altarState.dress=null;altarState.th=null;altarState.sandal=0;altarState.lamps=0;altarState.flowers=0;annakuta=0;vyasa=0;S.fresh=0;S.bathed=0;S.washed=0;homeLamp=0;altarState.f=0;altarState.t=0;refreshAltar();spawnDust();maps.out.objs.forEach(o=>{if(o.post)o.lit=0;});sticker('newday');toast('Day '+S.day+' · Mangala arati at 4:30! Wake up, Haribol!');sfx.conch();save();}}
+  else{sleepT-=dt;if(sleepT<=0){sleepT=0;S.min=4*60;S.day++;wakeInAshram();S.fest=null;if(festEv)endFestProgram();altarState.dress=null;altarState.th=null;altarState.sandal=0;altarState.lamps=0;altarState.flowers=0;annakuta=0;vyasa=0;S.fresh=0;S.bathed=0;S.washed=0;homeLamp=0;altarState.f=0;altarState.t=0;refreshAltar();spawnDust();maps.out.objs.forEach(o=>{if(o.post)o.lit=0;});markDone('newday');toast('Day '+S.day+' · Mangala arati at 4:30! Wake up, Haribol!');sfx.conch();save();}}
   // player
-  let mx=0,my=0;if(!dlg&&!busy()&&$('book').hidden&&$('help').hidden&&$('slides').hidden&&$('fest').hidden){if(keys.arrowleft||keys.a)mx--;if(keys.arrowright||keys.d)mx++;if(keys.arrowup||keys.w)my--;if(keys.arrowdown||keys.s)my++;}
+  let mx=0,my=0;if(!dlg&&!busy()&&$('help').hidden&&$('slides').hidden&&$('fest').hidden){if(keys.arrowleft||keys.a)mx--;if(keys.arrowright||keys.d)mx++;if(keys.arrowup||keys.w)my--;if(keys.arrowdown||keys.s)my++;}
   if(mx||my){player.target=null;if(player.onRope){player.onRope=false;unstick();}}
   if(player.target&&!dlg&&!busy()){const t=player.target,dx=t.x-player.x,dy=t.y-player.y,d=Math.hypot(dx,dy);
     const reach=t.then?(t.then.o&&t.then.o.solid?Math.max(14,Math.min(t.then.o.solid[2],t.then.o.solid[3])/2+12):t.then.en&&t.then.en.kind==='cow'?26:16):t.tile?(t.near?3:14):2;
@@ -1626,20 +1623,20 @@ function update(dt){
     player.moving=moved;player.dir=Math.abs(mx)>Math.abs(my)?(mx<0?1:2):(my<0?3:0);
     player.ft+=dt*(keys.shift?12:8);player.f=Math.floor(player.ft)%4;if(moved&&player.f%2===1&&Math.floor(player.ft*2)%4===0)sfx.step();}
   else{player.f=0;}
-  if(servedT>0){servedT-=dt;if(servedT<=0){hearts(player.x,player.y-28,5);sticker('served');servedBy=null;}}
-  if(stoveT>0){stoveT-=dt;if(Math.random()<dt*8)parts.push({x:3.4*T+(Math.random()-.5)*14,y:5*T-30,vx:0,vy:-14,t:0,life:1.2,k:'smoke'});if(stoveT<=0){stoveT=0;player.held=stoveMade;sfx.chime();sticker(stoveMade==='bhoga'?'cookbhoga':'cook');}}
-  if(feastT>0){feastT-=dt;if(Math.random()<dt*8)parts.push({x:11*T+(Math.random()-.5)*14,y:5.2*T-26,vx:0,vy:-14,t:0,life:1.2,k:'smoke'});if(feastT<=0){feastT=0;S.queue=Math.min(5,S.queue+2);hearts(11*T,5*T-20,4);sfx.chime();sticker('feast');}}
+  if(servedT>0){servedT-=dt;if(servedT<=0){hearts(player.x,player.y-28,5);markDone('served');servedBy=null;}}
+  if(stoveT>0){stoveT-=dt;if(Math.random()<dt*8)parts.push({x:3.4*T+(Math.random()-.5)*14,y:5*T-30,vx:0,vy:-14,t:0,life:1.2,k:'smoke'});if(stoveT<=0){stoveT=0;player.held=stoveMade;sfx.chime();markDone(stoveMade==='bhoga'?'cookbhoga':'cook');}}
+  if(feastT>0){feastT-=dt;if(Math.random()<dt*8)parts.push({x:11*T+(Math.random()-.5)*14,y:5.2*T-26,vx:0,vy:-14,t:0,life:1.2,k:'smoke'});if(feastT<=0){feastT=0;S.queue=Math.min(5,S.queue+2);hearts(11*T,5*T-20,4);sfx.chime();markDone('feast');}}
   if(player.sit&&(mx||my||player.target)){player.y=player.sit.o.y+10;player.sit=null;unstick();}
   if(player.jump>0)player.jump-=dt;if(fanT>0)fanT-=dt;
   if(player.bow>0)player.bow-=dt;if(player.sweep>0)player.sweep-=dt;if(tulasiPick>0)tulasiPick-=dt;if(milkWait>0)milkWait-=dt;
   if(S.min>=20*60)maps.out.objs.forEach(o=>{if(o.post)o.lit=1;});if(player.arati>0){player.arati-=dt;if(Math.floor(player.arati*2)!==Math.floor((player.arati+dt)*2))handBell();if(player.aratiK==='incense'&&Math.random()<dt*8)parts.push({x:player.x+(Math.random()-.5)*8,y:player.y-40,vx:(Math.random()-.5)*6,vy:-12,t:0,life:1.6,k:'smoke'});
-    if(player.arati<=0){const k=player.aratiK;player.held=null;sparkle(13*T,6*T,18);if(k==='chamara'){sticker('chamara');}else if(k==='lamp'){maps.temple.stand.img=STAND[1];sticker('arati');}else{sticker('incense');}}}
+    if(player.arati<=0){const k=player.aratiK;player.held=null;sparkle(13*T,6*T,18);if(k==='chamara'){markDone('chamara');}else if(k==='lamp'){maps.temple.stand.img=STAND[1];markDone('arati');}else{markDone('incense');}}}
   if(player.swing>0){player.swing-=dt;if(player.swing<=0){player.y=32*T;}}
   // doors
   for(const D of DOORS){if(D.from!==M.name)continue;const r=typeof D.r==='function'?D.r():D.r;if(player.x>r[0]&&player.x<r[0]+r[2]&&player.y>r[1]&&player.y<r[1]+r[3]&&(!D.up||my<0||keys.arrowup||keys.w)){const g=D.guard&&D.guard();if(g){need(g);player.y+=8;player.target=null;break;}switchMap(D.to,D.at[0],D.at[1],D.at[2]);break;}}
   // parikrama around Tulasi and Govardhana
   if(M.name==='out')CIRC.forEach(c=>{const dx=player.x-c.x,dy=(player.y-c.y)*c.sy,d=Math.hypot(dx,dy);if(d<c.r){const a=Math.atan2(dy,dx);if(c.last!==null){let da=a-c.last;if(da>Math.PI)da-=2*Math.PI;if(da<-Math.PI)da+=2*Math.PI;c.sum+=da;
-    if(Math.abs(c.sum)>=Math.PI*2){c.sum=0;S[c.key]++;sparkle(c.x,c.y-30,14);sfx.chime();sticker(c.st);}}c.last=a;}else{c.last=null;c.sum=0;}});
+    if(Math.abs(c.sum)>=Math.PI*2){c.sum=0;S[c.key]++;sparkle(c.x,c.y-30,14);sfx.chime();markDone(c.st);}}c.last=a;}else{c.last=null;c.sum=0;}});
   // NPCs
   if(player.moving){const L=trail[trail.length-1];if(!L||Math.hypot(L.x-player.x,L.y-player.y)>3)trail.push({x:player.x,y:player.y});if(trail.length>80)trail.shift();}
   let fi=0;
@@ -1675,7 +1672,7 @@ function update(dt){
     if(!st){endArati();}else{if(A.step!==st.k){A.step=st.k;if(A.byPlayer)A.wait=true;if((st.k==='conch'||st.k==='conchEnd')&&!A.byPlayer)for(let i=0;i<3;i++)setTimeout(()=>{if(M===maps.temple)sfx.conch();},i*1200);
         if(st.k==='conchEnd'){A.goers.forEach(g=>g.bow=2.4);}if(st.k==='share')startShare(A);if(st.k==='incense'&&maps.temple.stand)maps.temple.stand.img=STAND[0];if(st.k==='water'&&M===maps.temple)setTimeout(()=>{A.goers.concat([player]).forEach(g=>{for(let i=0;i<3;i++)parts.push({x:g.x+(Math.random()-.5)*10,y:g.y-34,vx:0,vy:30,t:-Math.random()*.3,life:.5,k:'drop'});});},st.d*800);}
       if(M===maps.temple){if(A.t>4){if(!kirtan)schedBeats(A,420,A.goers.length);const b=Math.floor((A.t-4)/.42);if(b!==A.beat){A.beat=b;if(!kirtan){if(b%8===0){A.line=(A.line||0)+1;const L=MANTRA[A.line%4];if(b%64<32)bubble(A.goers[0]||player,L,2.6);else if(A.goers[1])bubble(A.goers[1],L,2.6);}}A.goers.forEach(g=>{if(!g.carry)g.hop=1;});}}
-        if(st.k!=='conch'&&st.k!=='conchEnd'&&st.k!=='acamana'&&Math.floor(A.t/.84)!==Math.floor((A.t-dt)/.84))handBell();if(A.t>6)sticker('templearati');}}}
+        if(st.k!=='conch'&&st.k!=='conchEnd'&&st.k!=='acamana'&&Math.floor(A.t/.84)!==Math.floor((A.t-dt)/.84))handBell();if(A.t>6)markDone('templearati');}}}
   if(festEv)updFest(dt);if(rathaEv)updRatha(dt);if(boatRide)updBoat(dt);if(snanaT>0){snanaT-=dt;if(M===maps.temple&&Math.random()<dt*20)parts.push({x:13*T-20+Math.random()*44,y:2.5*T,vx:0,vy:40,t:0,life:1.2,k:'drop'});}
   duck(!!(festEv&&festEv.steps[festEv.si]==='abhisheka'&&M===maps.temple)||!!kirtan||!!(aratiEv&&M===maps.temple&&aratiEv.t>3)||!!(rathaEv&&M===maps.out)||!!(boatRide&&boatRide.fest)||japaT>=0);
   // kirtan
@@ -1683,14 +1680,14 @@ function update(dt){
     if(kirtan.t>34){kirtan=null;hearts(player.x,player.y-30,4);}}
   // catch
   if(ball){ball.t+=dt;if(ball.ph==='to'&&ball.t>1.45){ball.ph='miss';ball.t=0;toast('Oops, missed! Try again.');}
-    else if(ball.ph==='back'&&ball.t>.9||ball.ph==='miss'&&ball.t>.8){if(ball.throws>=6){const sc=ball.score;ball=null;if(sc>=3)sticker('catch');}else{ball.ph='to';ball.t=0;ball.throws++;sfx.pop();}}}
+    else if(ball.ph==='back'&&ball.t>.9||ball.ph==='miss'&&ball.t>.8){if(ball.throws>=6){const sc=ball.score;ball=null;if(sc>=3)markDone('catch');}else{ball.ph='to';ball.t=0;ball.throws++;sfx.pop();}}}
   // cows
   if(M===maps.out){const nearFence=player.x>30*T&&player.x<42.5*T&&player.y>11*T&&player.y<24.5*T&&!(player.x>31*T&&player.x<41*T&&player.y>12*T&&player.y<22*T);
     if(nearFence&&Math.random()<dt*.5){let best=null,bd=1e9;cows.forEach(c=>{const d=Math.hypot(c.x-player.x,c.y-player.y);if(d<bd&&c.happy<=0){bd=d;best=c;}});if(best&&bd>34)best.goal={x:clamp(player.x,COWBOX.x0,COWBOX.x1),y:clamp(player.y,COWBOX.y0,COWBOX.y1)};}
     cows.forEach(c=>{c.happy=Math.max(0,c.happy-dt);if(c.happy>0){c.f=0;return;}if(c.eat>0){c.eat-=dt;c.f=0;if(Math.random()<dt*2)eatBits(c.x+(c.fl?14:-14),c.y-4,c.eatK);return;}if(!c.goal){c.wait-=dt;c.f=0;if(c.wait<=0){if(Math.random()<.25){c.eat=3+Math.random()*2;c.eatK='grass';}else c.goal=Math.random()<.4?pick([{x:33.8*T,y:20*T-12,eat:'water'},{x:38.6*T,y:20*T-12,eat:'hay'}]):{x:COWBOX.x0+Math.random()*(COWBOX.x1-COWBOX.x0),y:COWBOX.y0+Math.random()*(COWBOX.y1-COWBOX.y0)};c.wait=3+Math.random()*5;}}
       else{const dx=c.goal.x-c.x,dy=c.goal.y-c.y,d=Math.hypot(dx,dy);if(d<2){if(c.goal.eat){c.eat=4+Math.random()*3;c.eatK=c.goal.eat;c.fl=c.goal.x>c.x?1:0;}c.goal=null;}else{c.x+=dx/d*12*dt;c.y+=dy/d*12*dt;c.fl=dx>0?1:0;c.ft+=dt*3;c.f=Math.floor(c.ft)%2;}}});
     if(Math.random()<dt*.04)sfx.moo&&Math.hypot(player.x-36*T,player.y-17*T)<8*T&&sfx.moo();
-    peacocks.forEach(p=>{if(p.dance>0){p.dance-=dt;p.f=0;return;}const pd=Math.hypot(player.x-p.x,player.y-p.y);if(pd<28&&Math.random()<dt*.15){p.dance=4;sticker('peacock');}
+    peacocks.forEach(p=>{if(p.dance>0){p.dance-=dt;p.f=0;return;}const pd=Math.hypot(player.x-p.x,player.y-p.y);if(pd<28&&Math.random()<dt*.15){p.dance=4;markDone('peacock');}
       if(!p.goal){p.wait-=dt;p.f=0;if(p.wait<=0){const gx=p.x+(Math.random()-.5)*90,gy=p.y+(Math.random()-.5)*60;if(walkFree(M,gx,gy))p.goal={x:gx,y:gy};p.wait=2+Math.random()*4;}}
       else{const dx=p.goal.x-p.x,dy=p.goal.y-p.y,d=Math.hypot(dx,dy);if(d<2)p.goal=null;else{const nx=p.x+dx/d*18*dt,ny=p.y+dy/d*18*dt;if(walkFree(M,nx,ny)){p.x=nx;p.y=ny;}else p.goal=null;p.fl=dx>0?1:0;p.ft+=dt*6;p.f=Math.floor(p.ft)%2;}}});
     updCritters(dt);updFlock(dt);
@@ -1767,7 +1764,7 @@ function draw(){
     if(o===M.swing){G.drawImage(o.img,Math.round(o.x+o.ox-cam.x),Math.round(o.y+o.oy-cam.y));if(!(player.swing>0)){const X=Math.round(o.x-cam.x),Y=Math.round(o.y-cam.y),sw=Math.round(Math.sin(tNow*1.3)*1.5);R(G,X-10+sw,Y-40,1,30,INK);R(G,X+9+sw,Y-40,1,30,INK);for(let k=0;k<6;k++){R(G,X-11+sw,Y-38+k*5,3,2,['#ff8fb0','#fff4d6','#ffb347'][k%3]);R(G,X+8+sw,Y-36+k*5,3,2,['#fff4d6','#ffb347','#ff8fb0'][k%3]);}R(G,X-12+sw,Y-11,24,5,INK);R(G,X-11+sw,Y-10,22,3,P.wood);R(G,X-11+sw,Y-10,22,1,'#f0c896');for(let k=0;k<5;k++)R(G,X-9+k*4+sw,Y-7,2,2,['#ff8fb0','#ffe066','#fff'][k%3]);}return;}
     if(o.tree&&M.name==='out'){const sway=Math.round(Math.sin(tNow*1.2+o.x*.05));G.drawImage(o.img,0,0,36,30,Math.round(o.x+o.ox-cam.x)+sway,Math.round(o.y+o.oy-cam.y),36,30);G.drawImage(o.img,0,30,36,18,Math.round(o.x+o.ox-cam.x),Math.round(o.y+o.oy-cam.y)+30,36,18);return;}
     G.drawImage(o.img,Math.round(o.x+o.ox-cam.x),Math.round(o.y+o.oy-cam.y));
-    if(o.dusty&&o.img)drawDusty(o);
+    if(o.dusty&&o.img&&!(M===maps.temple&&(aratiEv||festEv)))drawDusty(o);
     if(o===maps.home.halt&&homeLamp){const fl=Math.floor(tNow*9)%2;R(G,Math.round(o.x-14-cam.x),Math.round(o.y-20-fl-cam.y),1,3+fl,'#ffcf5a');}
     if(o===M.perch)parrots.forEach((p,i)=>{let px=o.x+p.x,py=o.y+p.y-14;if(p.fly>0){const a=(1-p.fly/4)*Math.PI*2+i*Math.PI;px=o.x+Math.sin(a)*44;py=o.y-50+Math.cos(a)*16-Math.sin((1-p.fly/4)*Math.PI)*20;}else py+=Math.round(Math.abs(Math.sin(tNow*2.2+p.ph))*1)-(p.hop>0?Math.round(Math.sin(p.hop*Math.PI)*4):0);
       const fr=p.fly>0||p.flap>0||p.talk>0?Math.floor(tNow*10)%2:0;G.drawImage(PARROT[fr],Math.round(px-7-cam.x),Math.round(py-cam.y));if(p.talk>0)drawBubble(p.text,px,py-14);});}});});
@@ -1875,7 +1872,7 @@ function preview(id,key){const c=$(id),x=c.getContext('2d');x.imageSmoothingEnab
 preview('cGirl','girl');preview('cBoy','boy');
 function choose(k){S.look=k;$('pGirl').setAttribute('aria-pressed',k==='girl');$('pBoy').setAttribute('aria-pressed',k==='boy');}
 $('pGirl').onclick=()=>choose('girl');$('pBoy').onclick=()=>choose('boy');choose(S.look||'girl');
-$('goBtn').onclick=()=>{dressMe();if(!ROOMS[1].who)setupAshram(!!LOOK[S.look].girl);if(!npcByKey('nani')&&!npcByKey('dada')){const girl=!!LOOK[S.look].girl;addNPC(maps.home,girl?'nani':'dada',girl?'Paurnamasi':'Upananda',3.6,6.6,{voice:girl?760:600,rad:0,fixed:1,elder:1});homeOwner(girl?'Paurnamasi':'Upananda',girl?'Paurnamasi':'Upananda');}$('start').hidden=true;document.body.classList.add('playing');running=true;wakeInAshram();ac();if(musicOn)startMusic();sfx.conch();toast('Hare Krishna!',1600);save();};
+$('goBtn').onclick=()=>{dressMe();if(!ROOMS[1].who)setupAshram(!!LOOK[S.look].girl);if(!npcByKey('nani')&&!npcByKey('dada')){const girl=!!LOOK[S.look].girl;addNPC(maps.home,girl?'nani':'dada',girl?'Paurnamasi':'Upananda',3.6,6.6,{voice:girl?760:600,rad:0,fixed:1,elder:1});homeOwner(girl?'Paurnamasi':'Upananda',girl?'Paurnamasi':'Upananda');}$('start').hidden=true;document.body.classList.add('playing');running=true;last=performance.now();if(AC&&AC.state==='suspended')AC.resume();if(S.min<=4*60&&!wokeOnce){wokeOnce=1;wakeInAshram();}ac();if(musicOn)startMusic();sfx.conch();toast('Hare Krishna!',1600);save();};
 player.x=maps.out.spawn.x;player.y=maps.out.spawn.y+20;dressMe();
 settleWalkers();spawnDust();buildBar();if(S.deco)maps.out.swing.img=swingImg2(S.deco);requestAnimationFrame(frame);
 
