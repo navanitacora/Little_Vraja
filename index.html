@@ -99,7 +99,34 @@ p{margin:6px 0;line-height:1.4;font-size:15px}
 .touch #say{position:fixed;left:50%;transform:translateX(-50%);bottom:54px;width:min(560px,56vw);min-height:0;z-index:25}
 .touch #msg{min-height:26px;font-size:14px}.touch #dlg .tx{font-size:13px}.touch #dlg canvas{width:44px;height:44px}
 .touch:not(.playing) #pad,.touch:not(.playing) #acts,.touch:not(.playing) #say{display:none!important}
-.touch #foot{margin-top:30px}.touch .btn{font-size:12px;padding:2px 8px 1px}.touch #clock b{font-size:12px}.touch #clock small{font-size:9px}
+/* phone: the game fills the screen, buttons float on top of it */
+.touch #stage{gap:0}
+body.touch{margin:0;padding-left:env(safe-area-inset-left,0px);padding-right:env(safe-area-inset-right,0px)}
+.touch #view{padding:5px;border-radius:12px;background:radial-gradient(circle at 5px 5px,#fff6ee 1px,transparent 1.5px) 0 0/10px 10px,linear-gradient(#ffd9c4,#f7c3a8)}
+.touch .lotus{display:none}
+.touch #top{position:absolute;top:11px;left:11px;right:11px;width:auto;margin:0;z-index:20;align-items:flex-start;pointer-events:none}
+.touch #top>*{pointer-events:auto}
+.touch #clock{border-radius:12px;background:#ffdcc8e6;padding:1px 8px 1px 4px;gap:5px}.touch #clock canvas{width:18px;height:18px}
+.touch #clock b{font-size:12px}.touch #clock small{font-size:9px}
+.touch #topbtns{gap:4px}.touch .btn{font-size:12px;padding:4px 9px 3px;border-radius:12px;background:#ffdcc8e6}
+.touch #bar{bottom:9px;border-radius:22px;background:#f7c3a8cc;padding:3px 8px;gap:6px}
+.touch .slot{width:38px;height:38px}.touch .slot canvas{width:26px;height:26px}
+.touch #foot{margin:0;height:0}
+.touch #pad{left:calc(env(safe-area-inset-left,0px) + 12px);bottom:12px;grid-template-columns:repeat(3,42px);grid-template-rows:repeat(3,42px)}
+.touch #acts{right:calc(env(safe-area-inset-right,0px) + 12px);bottom:12px;grid-template-columns:auto auto;gap:6px;align-items:center;justify-items:center}
+.touch #acts #tJapa{grid-column:1;grid-row:1}.touch #acts #tJump{grid-column:2;grid-row:1}.touch #acts #tBow{grid-column:1;grid-row:2}
+.touch #acts #tAct{grid-column:2;grid-row:2;width:60px;height:60px}
+.touch #acts button.sm{width:46px;height:46px}
+.touch #pad button,.touch #acts button{background:#ffdcc8b8}
+.touch #pad button:active,.touch #acts button:active{background:#ffdcc8}
+.touch #say{bottom:62px}
+.touch #pause,.touch #help,.touch #start,.touch #slides,.touch #fest{position:fixed;z-index:40}
+.touch #pause .panel,.touch #help .panel,.touch #start .panel,.touch #slides .panel,.touch #fest .panel{width:min(560px,86vw);max-height:90vh;padding:10px 16px;box-sizing:border-box}
+.touch #start{background:var(--frame)}
+.touch #start h1{font-size:26px;margin:0}.touch #start p{font-size:13px;margin:2px 0}
+.touch .pick{margin:6px 0;gap:12px}.touch .pick button{padding:4px 14px;font-size:14px}.touch .pick canvas{width:44px;height:66px}
+.touch .go{font-size:18px;padding:7px 24px}.touch #start .kbd{display:none}
+.touch:not(.playing) #top,.touch:not(.playing) #bar{display:none!important}
 [hidden]{display:none!important}
 #rotate{display:none;position:fixed;inset:0;z-index:50;place-items:center;background:var(--frame);padding:24px}
 #rotate .panel{padding:18px 22px;font-size:18px;text-align:center;font-weight:700;color:var(--maroon-d);max-width:calc(100vw - 48px);box-sizing:border-box}
@@ -139,7 +166,7 @@ p{margin:6px 0;line-height:1.4;font-size:15px}
     <p>A little Vrindavan village around the temple of Sri Sri Radha-Syamasundara.</p>
     <div class="pick"><button id="pGirl" aria-pressed="true"><canvas id="cGirl" width="16" height="24"></canvas>Girl</button><button id="pBoy" aria-pressed="false"><canvas id="cBoy" width="16" height="24"></canvas>Boy</button></div>
     <button class="btn go" id="goBtn">Start · Haribol!</button>
-    <p style="font-size:13px;color:var(--muted);margin-top:12px">WASD or arrows to walk · E to use · click things too</p></div></div>
+    <p class="kbd" style="font-size:13px;color:var(--muted);margin-top:12px">WASD or arrows to walk · E to use · click things too</p></div></div>
 </div></div>
 
 <script>
@@ -162,7 +189,12 @@ const store={get(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.
 
 /* ================= sound ================= */
 let AC=null,master=null;
-function ac(){if(!AC){try{AC=new (window.AudioContext||window.webkitAudioContext)();master=AC.createGain();master.gain.value=.8;master.connect(AC.destination);}catch(e){return null;}}if(AC.state==='suspended')AC.resume();return AC;}
+let iosUnlocked=false;
+function iosUnlock(){if(iosUnlocked)return;iosUnlocked=true;try{if(navigator.audioSession)navigator.audioSession.type='playback';}catch(e){}
+ try{const a=document.createElement('audio');a.setAttribute('playsinline','');a.loop=true;a.volume=.01;
+  a.src='data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAESsAACJWAAACABAAZGF0YQAAAAA=';const p=a.play();if(p&&p.catch)p.catch(()=>{});}catch(e){}}
+function ac(){iosUnlock();if(!AC){try{AC=new (window.AudioContext||window.webkitAudioContext)();master=AC.createGain();master.gain.value=.8;master.connect(AC.destination);}catch(e){return null;}}if(AC.state!=='running'&&AC.state!=='closed'&&running)AC.resume();return AC;}
+['touchend','pointerdown','keydown'].forEach(ev=>document.addEventListener(ev,()=>{if(!$('start').hidden&&!AC)return;iosUnlock();if(AC&&AC.state!=='running'&&AC.state!=='closed'&&running)AC.resume();},{passive:true}));
 function tone(f,d,type,vol,when=0,f2=0,out){const a=ac();if(!a)return;const t=a.currentTime+when,o=a.createOscillator(),v=a.createGain();o.type=type||'square';o.frequency.setValueAtTime(f,t);if(f2)o.frequency.exponentialRampToValueAtTime(f2,t+d);
   v.gain.setValueAtTime(0,t);v.gain.linearRampToValueAtTime(vol,t+.008);v.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(v);v.connect(out||master);o.start(t);o.stop(t+d+.02);}
 let noiseBuf=null;function noise(d,vol,freq,when=0,out){const a=ac();if(!a)return;if(!noiseBuf){noiseBuf=a.createBuffer(1,a.sampleRate,a.sampleRate);const c=noiseBuf.getChannelData(0);for(let i=0;i<c.length;i++)c[i]=Math.random()*2-1;}
@@ -1323,7 +1355,7 @@ function endBoat(){const b=boatRide;boatRide=null;maps.out.boat.x=36*T+8;maps.ou
 $('bEnd').onclick=()=>{followers().forEach(stopFollow);};$('bEnd').textContent='End japa walk (X)';
 $('bHelp').onclick=()=>{$('help').hidden=false;};
 function pauseGame(){if(!running||!$('start').hidden)return;running=false;$('pause').hidden=false;if(AC&&AC.state==='running')AC.suspend();save();}
-function resumeGame(){$('pause').hidden=true;$('help').hidden=true;running=true;last=performance.now();if(AC&&AC.state==='suspended')AC.resume();}
+function resumeGame(){$('pause').hidden=true;$('help').hidden=true;running=true;last=performance.now();if(AC&&AC.state!=='running'&&AC.state!=='closed')AC.resume();}
 $('bPause').onclick=pauseGame;$('pResume').onclick=resumeGame;$('pHelp').onclick=()=>{$('help').hidden=false;};
 $('pMenu').onclick=()=>{$('pause').hidden=true;$('start').hidden=false;document.body.classList.remove('playing');save();};
 document.addEventListener('visibilitychange',()=>{if(document.hidden)pauseGame();});$('helpClose').onclick=()=>{$('help').hidden=true;};
@@ -1863,8 +1895,8 @@ function updClock(){const h=Math.floor(S.min/60),mi=S.min%60,ap=h>=12?'pm':'am',
   sunC.clearRect(0,0,16,16);if(S.min<19*60){circ(sunC,8,8,6,INK);circ(sunC,8,8,5,'#ffcf5a');R(sunC,6,6,2,2,'#fff1b8');}else{circ(sunC,8,8,6,INK);circ(sunC,8,8,5,'#fff4d6');circ(sunC,10,6,4,'#2b2140');}}
 
 /* ================= loop ================= */
-function fit(){const touch=document.body.classList.contains('touch'),w=touch?innerWidth-300:innerWidth-36-40,h=touch?innerHeight-104:innerHeight-(30+110+60+50);let s=Math.min(w/(VW+8),h/(VH+8));s=s>=2?Math.floor(s*2)/2:Math.max(.7,s);scale=s;cv.style.width=Math.round(VW*s)+'px';cv.style.height=Math.round(VH*s)+'px';{const dp=Math.min(3,devicePixelRatio||1);ovl.style.left=(cv.offsetLeft+cv.clientLeft)+'px';ovl.style.top=(cv.offsetTop+cv.clientTop)+'px';ovl.style.width=cv.style.width;ovl.style.height=cv.style.height;ovl.width=Math.round(VW*s*dp);ovl.height=Math.round(VH*s*dp);}$('stage').style.width=Math.max(Math.round(VW*s)+8,Math.min(innerWidth-36,560))+'px';}
-addEventListener('resize',fit);fit();
+function fit(){const touch=document.body.classList.contains('touch');let s;if(touch){const cs=getComputedStyle(document.body),w=document.documentElement.clientWidth-parseFloat(cs.paddingLeft)-parseFloat(cs.paddingRight)-20,h=innerHeight-24;s=Math.max(.5,Math.floor(Math.min(w/VW,h/VH)*100)/100);}else{const w=innerWidth-36-40,h=innerHeight-(30+110+60+50);s=Math.min(w/(VW+8),h/(VH+8));s=s>=2?Math.floor(s*2)/2:Math.max(.7,s);}scale=s;cv.style.width=Math.round(VW*s)+'px';cv.style.height=Math.round(VH*s)+'px';{const dp=Math.min(3,devicePixelRatio||1);ovl.style.left=(cv.offsetLeft+cv.clientLeft)+'px';ovl.style.top=(cv.offsetTop+cv.clientTop)+'px';ovl.style.width=cv.style.width;ovl.style.height=cv.style.height;ovl.width=Math.round(VW*s*dp);ovl.height=Math.round(VH*s*dp);}$('stage').style.width=(touch?Math.round(VW*s)+16:Math.max(Math.round(VW*s)+8,Math.min(innerWidth-36,560)))+'px';}
+addEventListener('resize',fit);addEventListener('orientationchange',()=>setTimeout(fit,250));fit();
 let last=performance.now(),running=false;
 function frame(now){const dt=Math.min(.05,(now-last)/1000);last=now;tNow+=dt;if(running)update(dt);draw();drawOverlay();updBar();updClock();updMsg();{const hasF=npcs.some(n=>n.follow);if($('bEnd').hidden===hasF)$('bEnd').hidden=!hasF;}requestAnimationFrame(frame);}
 /* start screen */
@@ -1872,7 +1904,7 @@ function preview(id,key){const c=$(id),x=c.getContext('2d');x.imageSmoothingEnab
 preview('cGirl','girl');preview('cBoy','boy');
 function choose(k){S.look=k;$('pGirl').setAttribute('aria-pressed',k==='girl');$('pBoy').setAttribute('aria-pressed',k==='boy');}
 $('pGirl').onclick=()=>choose('girl');$('pBoy').onclick=()=>choose('boy');choose(S.look||'girl');
-$('goBtn').onclick=()=>{dressMe();if(!ROOMS[1].who)setupAshram(!!LOOK[S.look].girl);if(!npcByKey('nani')&&!npcByKey('dada')){const girl=!!LOOK[S.look].girl;addNPC(maps.home,girl?'nani':'dada',girl?'Paurnamasi':'Upananda',3.6,6.6,{voice:girl?760:600,rad:0,fixed:1,elder:1});homeOwner(girl?'Paurnamasi':'Upananda',girl?'Paurnamasi':'Upananda');}$('start').hidden=true;document.body.classList.add('playing');running=true;last=performance.now();if(AC&&AC.state==='suspended')AC.resume();if(S.min<=4*60&&!wokeOnce){wokeOnce=1;wakeInAshram();}ac();if(musicOn)startMusic();sfx.conch();toast('Hare Krishna!',1600);save();};
+$('goBtn').onclick=()=>{running=true;ac();dressMe();if(!ROOMS[1].who)setupAshram(!!LOOK[S.look].girl);if(!npcByKey('nani')&&!npcByKey('dada')){const girl=!!LOOK[S.look].girl;addNPC(maps.home,girl?'nani':'dada',girl?'Paurnamasi':'Upananda',3.6,6.6,{voice:girl?760:600,rad:0,fixed:1,elder:1});homeOwner(girl?'Paurnamasi':'Upananda',girl?'Paurnamasi':'Upananda');}$('start').hidden=true;document.body.classList.add('playing');running=true;last=performance.now();if(AC&&AC.state!=='running'&&AC.state!=='closed')AC.resume();if(S.min<=4*60&&!wokeOnce){wokeOnce=1;wakeInAshram();}ac();if(musicOn)startMusic();sfx.conch();toast('Hare Krishna!',1600);save();};
 player.x=maps.out.spawn.x;player.y=maps.out.spawn.y+20;dressMe();
 settleWalkers();spawnDust();buildBar();if(S.deco)maps.out.swing.img=swingImg2(S.deco);requestAnimationFrame(frame);
 
