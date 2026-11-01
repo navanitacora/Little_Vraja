@@ -38,6 +38,7 @@ canvas#game{display:block;image-rendering:pixelated;image-rendering:crisp-edges;
 #clock b{font-family:var(--deco);font-weight:400;font-size:14px;color:var(--maroon-d);font-variant-numeric:tabular-nums}
 #clock small{color:var(--muted);display:block;font-size:10px}
 #topbtns{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+#bEnd{background:var(--lotus);color:#fff}
 button{font-family:var(--ui);font-size:14px;color:var(--text);cursor:pointer}
 .btn{background:#ffdcc8;color:var(--maroon-d);font-family:var(--deco);font-size:13px;border:0;border-radius:12px 12px 0 0;padding:3px 10px 2px;box-shadow:none}
 .btn:hover{background:#ffe8da}.btn:active{transform:translateY(2px);box-shadow:none}
@@ -108,7 +109,7 @@ body.touch{margin:0;padding-left:env(safe-area-inset-left,0px);padding-right:env
 .touch #top>*{pointer-events:auto}
 .touch #clock{border-radius:12px;background:#ffdcc8e6;padding:1px 8px 1px 4px;gap:5px}.touch #clock canvas{width:18px;height:18px}
 .touch #clock b{font-size:12px}.touch #clock small{font-size:9px}
-.touch #topbtns{gap:4px}.touch .btn{font-size:12px;padding:4px 9px 3px;border-radius:12px;background:#ffdcc8e6}
+.touch #topbtns{gap:4px}.touch #bEnd{background:var(--lotus);font-size:13px;padding:5px 11px 4px}.touch .btn{font-size:12px;padding:4px 9px 3px;border-radius:12px;background:#ffdcc8e6}
 .touch #bar{bottom:9px;border-radius:22px;background:#f7c3a8cc;padding:3px 8px;gap:6px}
 .touch .slot{width:38px;height:38px}.touch .slot canvas{width:26px;height:26px}
 .touch #foot{margin:0;height:0}
@@ -1177,7 +1178,7 @@ function beServed(n){const seat={x:12.6*T,y:7*T+8};player.x=seat.x;player.y=seat
 function chat(n){const L=LINES[n.key]||['Hare Krishna! Have a lovely day of service.'];openDlg(n.name,npcFace(n.key),L[n.talkI%L.length],n.voice);n.talkI++;}
 function openDlg(name,face,text,voice,opts){dlg={name,text,shown:0,voice,opts:opts||null};$('dlg').hidden=false;$('msg').hidden=true;$('dname').textContent=name;$('dtext').textContent='';drawFace(face);
   const oc=$('opts');oc.innerHTML='';if(opts){opts.forEach((op,i)=>{const b=document.createElement('button');b.innerHTML='<b>'+(i+1)+'</b>'+esc(op.l);b.onclick=e=>{e.stopPropagation();chooseOpt(i);};oc.appendChild(b);});}
-  $('dnx').textContent=opts?'choose with 1 – '+opts.length+' or click · X to close':'click or press E · X to close';if(voice==='moo')sfx.moo();else babble(text,voice||900);}
+  $('dnx').textContent=TOUCH()?(opts?'tap a choice · ✕ to close':'tap to continue · ✕ to close'):(opts?'choose with 1 – '+opts.length+' or click · X to close':'click or press E · X to close');if(voice==='moo')sfx.moo();else babble(text,voice||900);}
 function chooseOpt(i){if(!dlg||!dlg.opts||!dlg.opts[i])return;const f=dlg.opts[i].f;closeDlg();sfx.blip();f();}
 function exitAnything(){if(dlg){closeDlg();return;}if(boatRide){endBoat();return;}if(player.held==='serve'){player.held=null;updBar();toast('You put the serving bucket back.',1600);return;}if(aratiEv&&aratiEv.byPlayer){endArati();return;}if(['mop','duster'].includes(player.held)||S.tool==='broom'){if(M===maps.temple){if(player.held==='mop'||player.held==='duster')player.held=null;if(S.tool==='broom')S.tool=null;updBar();toast('You put it back in the cleaning closet.',1600);}else need('It belongs in the cleaning closet in the temple.');return;}if(S.tool){if(M===maps.out&&[maps.out.shed].some(sh=>Math.hypot(player.x-sh.x,player.y-sh.y)<7*T)){dropTool();toast('You put it back in the garden shed.',1600);}else need('The '+TOOLS[S.tool].n+' belongs in the garden shed.');return;}if(kirtan){kirtan.t=99;return;}if(ball){ball.throws=6;ball.ph='miss';ball.t=1;return;}if(followers().length){followers().forEach(stopFollow);return;}if(player.held&&['incense','conch','chamara','lamp'].includes(player.held)&&!player.arati){if(player.held==='lamp'&&maps.temple.stand)maps.temple.stand.img=STAND[1];player.held=null;toast('You put it back.');}}
 function closeDlg(){ROOMS.forEach(r=>{if(r&&r.peek){r.peek=0;r.img=DOORC;}});dlg=null;$('dlg').hidden=true;$('msg').hidden=false;}
@@ -1335,7 +1336,7 @@ function drawRatha(){const R0=rathaEv,X=Math.round(R0.x-34-cam.x),Y=Math.round(R
 /* ---- boat festival ---- */
 const NAUKA=mk(20,20,x=>{R(x,2,8,16,2,INK);R(x,3,9,14,1,P.gold);R(x,3,10,1,8,INK);R(x,16,10,1,8,INK);ell(x,10,6,9,4,INK);ell(x,10,6,8,3,'#e05a7a');R(x,6,12,3,6,'#5c7fd8');R(x,6,11,3,2,P.gold);R(x,11,12,3,6,'#f0789c');R(x,11,11,3,2,P.gold);R(x,7,13,1,1,'#fff');R(x,12,13,1,1,'#fff');});
 let boatRide=null;const BANK_Y=35*T+12;
-function startBoat(mode){if(mode===true)mode='fest';if(!mode)mode='solo';if(boatRide||busy())return;player.target=null;closeDlg();const fest=mode==='fest';toast('Steer with the arrow keys · X to come back',2600);
+function startBoat(mode){if(mode===true)mode='fest';if(!mode)mode='solo';if(boatRide||busy())return;player.target=null;closeDlg();const fest=mode==='fest';toast(TOUCH()?'Steer with the arrows · tap “Get out of the boat” at the top to come back':'Steer with the arrow keys · X to come back',3200);
   if(mode==='solo'){boatRide={t:0,mate:null,cheer:[],fest,x:maps.out.boat.x,y:38*T+4};return;}if(fest)player.held=null;
   const free=n=>!n.follow&&!n.inArati&&!n.ratha&&!n.inFest&&!n.speaker;
   const pool=['keshava','bhakti','lalita','vrinda','gaura','radhika','sita','mataji','babaji'].map(npcByKey).filter(n=>n&&free(n));
@@ -1352,7 +1353,13 @@ function updBoat(dt){const b=boatRide;b.t+=dt;let mx=0,my=0;if(M===maps.out&&!dl
     if(!n.bub&&Math.random()<dt*.15)bubble(n,pick(['Jaya!','Haribol!','Jaya Radhe!','♪']),1.2);});
 }
 function endBoat(){const b=boatRide;boatRide=null;maps.out.boat.x=36*T+8;maps.out.boat.y=38*T+10;b.cheer.concat(b.mate?[b.mate]:[]).forEach(n=>{n.cheer=0;n.inBoat=0;n.f=0;n.hop=0;unpark(n);});player.x=34*T;player.y=37*T;unstick();if(b.fest)hearts(player.x,player.y-26,5);}
-$('bEnd').onclick=()=>{followers().forEach(stopFollow);};$('bEnd').textContent='End japa walk (X)';
+const TOUCH=()=>document.body.classList.contains('touch');
+function exitLabel(){if(dlg)return null;if(boatRide)return 'Get out of the boat';if(player.held==='serve')return 'Put the bucket back';if(aratiEv&&aratiEv.byPlayer)return 'End the arati';
+ if(['mop','duster'].includes(player.held)||S.tool==='broom')return M===maps.temple?'Put it back':null;
+ if(S.tool)return (M===maps.out&&[maps.out.shed].some(sh=>Math.hypot(player.x-sh.x,player.y-sh.y)<7*T))?'Put it back':null;
+ if(kirtan)return 'End kirtan';if(ball)return 'Stop playing';if(followers().length)return 'End japa walk';
+ if(player.held&&['incense','conch','chamara','lamp'].includes(player.held)&&!player.arati)return 'Put it back';return null;}
+$('bEnd').onclick=()=>{exitAnything();updBar();};
 $('bHelp').onclick=()=>{$('help').hidden=false;};
 function pauseGame(){if(!running||!$('start').hidden)return;running=false;$('pause').hidden=false;if(AC&&AC.state==='running')AC.suspend();save();}
 function resumeGame(){$('pause').hidden=true;$('help').hidden=true;running=true;last=performance.now();if(AC&&AC.state!=='running'&&AC.state!=='closed')AC.resume();}
@@ -1576,7 +1583,7 @@ let kirtan=null,ball=null;const trail=[];
 function followers(){return npcs.filter(n=>n.follow);}
 function startKirtan(n){const who=npcs.filter(m=>m.m===M&&(m===n||Math.hypot(m.x-player.x,m.y-player.y)<6*T||m.follow));kirtan={t:0,who,beat:-1,line:-1};who.forEach(w=>w.dir=dirTo(w,player));
   markDone('kirtan');toast((who.length>1?who.map(w=>w.name).join(', ')+' sing':n.name+' sings')+' kirtan with you! Walk around or stand still to dance. Press E to stop.',4500);}
-function startFollow(n){n.follow=1;n.goal=null;markDone('japawalk');toast(n.name+' joins your japa walk! J to chant together, Q to bow together, X to end the walk.',4500);bubble(n,'Hare Krishna!',2);}
+function startFollow(n){n.follow=1;n.goal=null;markDone('japawalk');toast(n.name+(TOUCH()?' joins your japa walk! Japa to chant together, Bow to bow together.':' joins your japa walk! J to chant together, Q to bow together, X to end the walk.'),4500);bubble(n,'Hare Krishna!',2);}
 function stopFollow(n){n.follow=0;n.goal=null;if(n.m!==n.home){moveEnt(n,n.home);n.x=n.hx;n.y=n.hy;}toast(n.name+': Haribol! See you soon!');}
 function park(n){n.park={m:n.m,x:n.x,y:n.y};}
 function unpark(n){const q=n.park;n.park=null;if(!q||n.follow)return;if(n.m!==q.m)moveEnt(n,q.m);n.x=q.x;n.y=q.y;}
@@ -1898,7 +1905,7 @@ function updClock(){const h=Math.floor(S.min/60),mi=S.min%60,ap=h>=12?'pm':'am',
 function fit(){const touch=document.body.classList.contains('touch');let s;if(touch){const cs=getComputedStyle(document.body),w=document.documentElement.clientWidth-parseFloat(cs.paddingLeft)-parseFloat(cs.paddingRight)-20,h=innerHeight-24;s=Math.max(.5,Math.floor(Math.min(w/VW,h/VH)*100)/100);}else{const w=innerWidth-36-40,h=innerHeight-(30+110+60+50);s=Math.min(w/(VW+8),h/(VH+8));s=s>=2?Math.floor(s*2)/2:Math.max(.7,s);}scale=s;cv.style.width=Math.round(VW*s)+'px';cv.style.height=Math.round(VH*s)+'px';{const dp=Math.min(3,devicePixelRatio||1);ovl.style.left=(cv.offsetLeft+cv.clientLeft)+'px';ovl.style.top=(cv.offsetTop+cv.clientTop)+'px';ovl.style.width=cv.style.width;ovl.style.height=cv.style.height;ovl.width=Math.round(VW*s*dp);ovl.height=Math.round(VH*s*dp);}$('stage').style.width=(touch?Math.round(VW*s)+16:Math.max(Math.round(VW*s)+8,Math.min(innerWidth-36,560)))+'px';}
 addEventListener('resize',fit);addEventListener('orientationchange',()=>setTimeout(fit,250));fit();
 let last=performance.now(),running=false;
-function frame(now){const dt=Math.min(.05,(now-last)/1000);last=now;tNow+=dt;if(running)update(dt);draw();drawOverlay();updBar();updClock();updMsg();{const hasF=npcs.some(n=>n.follow);if($('bEnd').hidden===hasF)$('bEnd').hidden=!hasF;}requestAnimationFrame(frame);}
+function frame(now){const dt=Math.min(.05,(now-last)/1000);last=now;tNow+=dt;if(running)update(dt);draw();drawOverlay();updBar();updClock();updMsg();{const l=running?exitLabel():null,t=l?(TOUCH()?'✕ '+l:l+' (X)'):'';if($('bEnd').textContent!==t)$('bEnd').textContent=t;if($('bEnd').hidden!==!l)$('bEnd').hidden=!l;}requestAnimationFrame(frame);}
 /* start screen */
 function preview(id,key){const c=$(id),x=c.getContext('2d');x.imageSmoothingEnabled=false;x.drawImage(SHEETS[key],0,0,16,24,0,0,16,24);}
 preview('cGirl','girl');preview('cBoy','boy');
